@@ -23,8 +23,8 @@ export const HabitGrid: React.FC<HabitGridProps> = ({
 
   const getHabitStatus = (habit: Habit, day: number): 'completed' | 'postponed' | 'not-done' => {
     const dateString = formatDate(currentYear, currentMonth, day);
-    if (habit.completedDates.includes(dateString)) return 'completed';
-    if (habit.postponedDates.includes(dateString)) return 'postponed';
+    if (habit.completedDates?.includes(dateString)) return 'completed';
+    if (habit.postponedDates?.includes(dateString)) return 'postponed';
     return 'not-done';
   };
 
@@ -54,7 +54,7 @@ export const HabitGrid: React.FC<HabitGridProps> = ({
   };
 
   const calculateStreak = (completedDates: string[]): number => {
-    if (completedDates.length === 0) return 0;
+    if (!completedDates || completedDates.length === 0) return 0;
     
     const today = new Date();
     const sortedDates = completedDates
@@ -221,7 +221,7 @@ export const HabitGrid: React.FC<HabitGridProps> = ({
                   <div className="flex items-center justify-center space-x-1">
                     <Flame className="h-3 w-3 sm:h-4 sm:w-4 text-orange-500" />
                     <span className="font-bold text-orange-600 text-xs sm:text-sm">
-                      {calculateStreak(habit.completedDates)}
+                      {calculateStreak(habit.completedDates || [])}
                     </span>
                   </div>
                 </div>

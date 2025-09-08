@@ -186,7 +186,7 @@ Your support helps me continue building amazing tools for the community!
 |----------|-------------|------|
 | **📁 Repository** | Main project repository | [GitHub Repo](https://github.com/shahinabdi/habit-tracker) |
 | **📖 Documentation** | Comprehensive project docs | [View Docs](https://github.com/shahinabdi/habit-tracker/wiki) |
-| **🌐 Live Demo** | Try the application online | [Launch Demo](https://shahinabdi.github.io/habit-tracker) |
+| **🌐 Live Demo** | Try the application online | [Launch Demo](https://habit-tracker-shahinabdi.vercel.app) |
 | **📋 Changelog** | Track project updates | [View Changelog](https://github.com/shahinabdi/habit-tracker/blob/main/CHANGELOG.md) |
 | **🤝 Contributing** | Contribution guidelines | [Contribute](https://github.com/shahinabdi/habit-tracker/blob/main/CONTRIBUTING.md) |
 | **📄 License** | MIT License details | [View License](https://github.com/shahinabdi/habit-tracker/blob/main/LICENSE) |

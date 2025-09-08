@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/shahinabdi/habit-tracker/issues"
   },
-  "homepage": "https://shahinabdi.github.io/habit-tracker",
+  "homepage": "https://habit-tracker-shahinabdi.vercel.app",
   "keywords": [
     "habit-tracker",
     "react",
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@types/node": "^24.3.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
