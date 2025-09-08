@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import { HabitInput } from './components/HabitInput';
 import { HabitGrid } from './components/HabitGrid';
+import { EmptyState } from './components/EmptyState';
 import { Stats } from './components/Stats';
 import { ExportImport } from './components/ExportImport';
+import { DataManagement } from './components/DataManagement';
 import { About } from './components/About';
 import { Footer } from './components/Footer';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { HabitData, Habit } from './types';
+import { generateSampleData } from './utils/sampleData';
 import { Calendar, BarChart3, Settings } from 'lucide-react';
 
 function App() {
@@ -78,6 +81,19 @@ function App() {
     setHabitData(importedData);
   };
 
+  const handleLoadSampleData = (sampleData: HabitData) => {
+    setHabitData(sampleData);
+  };
+
+  const handleQuickSampleLoad = () => {
+    const sampleData = generateSampleData();
+    setHabitData(sampleData);
+  };
+
+  const handleClearData = () => {
+    setHabitData({ habits: [] });
+  };
+
   const tabs = [
     { id: 'habits' as const, label: 'Habits', icon: Calendar },
     { id: 'stats' as const, label: 'Statistics', icon: BarChart3 },
@@ -121,13 +137,20 @@ function App() {
         {activeTab === 'habits' && (
           <div>
             <HabitInput onAddHabit={addHabit} />
-            <HabitGrid
-              habits={habitData.habits}
-              currentMonth={currentDate.month}
-              currentYear={currentDate.year}
-              onToggleHabit={toggleHabit}
-              onDeleteHabit={deleteHabit}
-            />
+            {habitData.habits.length === 0 ? (
+              <EmptyState
+                onLoadSampleData={handleQuickSampleLoad}
+                onSwitchToSettings={() => setActiveTab('settings')}
+              />
+            ) : (
+              <HabitGrid
+                habits={habitData.habits}
+                currentMonth={currentDate.month}
+                currentYear={currentDate.year}
+                onToggleHabit={toggleHabit}
+                onDeleteHabit={deleteHabit}
+              />
+            )}
           </div>
         )}
 
@@ -141,6 +164,11 @@ function App() {
 
         {activeTab === 'settings' && (
           <div className="space-y-6">
+            <DataManagement
+              habitData={habitData}
+              onLoadSampleData={handleLoadSampleData}
+              onClearData={handleClearData}
+            />
             <ExportImport
               habitData={habitData}
               onImport={handleImport}

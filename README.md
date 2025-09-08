@@ -90,8 +90,12 @@ This project exists to help individuals build lasting positive habits and achiev
 
 - 📅 **Monthly Calendar View** - Visual habit tracking with calendar grid
 - 🎯 **Habit Management** - Add, delete, and customize your habits
-- 📱 **Responsive Design** - Works perfectly on all devices
+- � **Habit Suggestions** - Quick access to popular habit ideas
+- 📊 **Sample Data** - Try the app with realistic habit examples
+- 🗑️ **Data Management** - Clear all data for a fresh start
+- �📱 **Responsive Design** - Works perfectly on all devices
 - 💾 **Local Storage** - Your data stays private on your device
+- 📤 **Export/Import** - Backup and restore your habit data
 - 🎨 **Beautiful UI** - Modern, clean interface with Tailwind CSS
 - ⚡ **Fast Performance** - Built with Vite for lightning-fast loading
 - 🔧 **TypeScript** - Fully typed for better development experience
@@ -186,6 +190,8 @@ Your support helps me continue building amazing tools for the community!
 - **🌙 Dark Mode** - Dark theme support
 - **📈 Progress Charts** - Visual progress representation
 - **🔔 Reminders** - Smart habit reminders
+- **📋 Habit Templates** - Pre-built habit collections
+- **🎨 Custom Themes** - Personalize your experience
 
 ### 🎯 Long-term Goals
 

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### ✨ Added
+- Sample data functionality with realistic habit examples
+- Clear all data feature for fresh start
+- Habit suggestions with popular habit ideas
+- Empty state component for new users
+- Data management interface in settings
+- Enhanced habit input with suggestion dropdown
+
 ### 🔮 Planned Features
 - Analytics Dashboard with habit insights
 - Goal setting and tracking
