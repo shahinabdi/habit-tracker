@@ -58,34 +58,33 @@ function App() {
     }));
   };
 
-  const toggleHabit = (habitId: number, date: string, action: 'complete' | 'postpone' | 'clear') => {
-    setHabitData(prev => ({
-      ...prev,
-      habits: prev.habits.map(habit => {
+  const handleToggleHabit = (habitId: number, date: string, action: 'complete' | 'postpone' | 'clear') => {
+    setHabitData(prevData => ({
+      ...prevData,
+      habits: prevData.habits.map(habit => {
         if (habit.id !== habitId) return habit;
 
-        let newCompletedDates = [...habit.completedDates];
-        let newPostponedDates = [...habit.postponedDates];
-
+        const updatedHabit = { ...habit };
+        
         // Remove from both arrays first
-        newCompletedDates = newCompletedDates.filter(d => d !== date);
-        newPostponedDates = newPostponedDates.filter(d => d !== date);
-
+        updatedHabit.completedDates = habit.completedDates.filter(d => d !== date);
+        updatedHabit.postponedDates = habit.postponedDates.filter(d => d !== date);
+        
         // Add to appropriate array based on action
         if (action === 'complete') {
-          newCompletedDates = [...newCompletedDates, date].sort();
+          updatedHabit.completedDates.push(date);
         } else if (action === 'postpone') {
-          newPostponedDates = [...newPostponedDates, date].sort();
+          updatedHabit.postponedDates.push(date);
         }
-        // For 'clear', we just remove from both arrays (already done above)
-
-        return {
-          ...habit,
-          completedDates: newCompletedDates,
-          postponedDates: newPostponedDates
-        };
+        // 'clear' action leaves it in neither array
+        
+        return updatedHabit;
       })
     }));
+  };
+
+  const handleMonthChange = (month: number, year: number) => {
+    setCurrentDate({ month, year });
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
@@ -174,7 +173,7 @@ function App() {
                   habits={habitData.habits}
                   currentMonth={currentDate.month}
                   currentYear={currentDate.year}
-                  onToggleHabit={toggleHabit}
+                  onToggleHabit={handleToggleHabit}
                   onDeleteHabit={deleteHabit}
                 />
               </div>
@@ -187,6 +186,7 @@ function App() {
             habitData={habitData}
             currentMonth={currentDate.month}
             currentYear={currentDate.year}
+            onMonthChange={handleMonthChange}
           />
         )}
 

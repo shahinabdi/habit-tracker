@@ -2,14 +2,16 @@ import React from 'react';
 import { Calendar, Target, TrendingUp, Award, Coffee, Heart, Github, Linkedin } from 'lucide-react';
 import { HabitData } from '../types';
 import { getDaysInMonth } from '../utils/dateUtils';
+import { HabitCalendar } from './HabitCalendar';
 
 interface StatsProps {
   habitData: HabitData;
   currentMonth: number;
   currentYear: number;
+  onMonthChange: (month: number, year: number) => void;
 }
 
-export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYear }) => {
+export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYear, onMonthChange }) => {
   const calculateStats = () => {
     const daysInMonth = getDaysInMonth(currentMonth, currentYear);
     const currentMonthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
@@ -64,6 +66,14 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
 
   return (
     <div className="space-y-6">
+      {/* Habit Calendar */}
+      <HabitCalendar
+        habitData={habitData}
+        currentMonth={currentMonth}
+        currentYear={currentYear}
+        onMonthChange={onMonthChange}
+      />
+
       {/* Current Month Stats */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <div className="flex items-center gap-2 mb-4">
