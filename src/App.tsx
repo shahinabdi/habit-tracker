@@ -5,6 +5,7 @@ import { HabitGrid } from './components/HabitGrid';
 import { Stats } from './components/Stats';
 import { ExportImport } from './components/ExportImport';
 import { About } from './components/About';
+import { Footer } from './components/Footer';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { HabitData, Habit } from './types';
 import { Calendar, BarChart3, Settings } from 'lucide-react';
@@ -148,6 +149,8 @@ function App() {
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }
