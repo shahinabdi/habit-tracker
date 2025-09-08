@@ -15,9 +15,9 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
     const currentMonthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
     
     let totalCompletions = 0;
+    let totalPostponed = 0;
     let totalPossible = habitData.habits.length * daysInMonth;
     let bestStreak = 0;
-    let currentStreaks = 0;
 
     habitData.habits.forEach(habit => {
       const monthCompletions = habit.completedDates.filter(date => 
@@ -25,7 +25,12 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
       ).length;
       totalCompletions += monthCompletions;
 
-      // Calculate streaks (simplified - just for current month)
+      const monthPostponed = habit.postponedDates.filter(date => 
+        date.startsWith(currentMonthStr)
+      ).length;
+      totalPostponed += monthPostponed;
+
+      // Calculate streaks for completed habits only
       let streak = 0;
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${currentMonthStr}-${String(day).padStart(2, '0')}`;
@@ -37,7 +42,6 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
         }
       }
       if (streak > bestStreak) bestStreak = streak;
-      currentStreaks += streak;
     });
 
     const completionRate = totalPossible > 0 ? (totalCompletions / totalPossible) * 100 : 0;
@@ -45,6 +49,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
     return {
       totalHabits: habitData.habits.length,
       totalCompletions,
+      totalPostponed,
       completionRate: Math.round(completionRate),
       bestStreak,
       averageDaily: habitData.habits.length > 0 ? Math.round(totalCompletions / daysInMonth) : 0
@@ -68,17 +73,23 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
           </h3>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="text-center p-3 bg-emerald-50 rounded-lg">
             <Target className="w-6 h-6 text-emerald-600 mx-auto mb-2" />
             <div className="text-2xl font-bold text-emerald-700">{stats.totalHabits}</div>
             <div className="text-xs text-emerald-600">Active Habits</div>
           </div>
 
-          <div className="text-center p-3 bg-blue-50 rounded-lg">
-            <Calendar className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-blue-700">{stats.totalCompletions}</div>
-            <div className="text-xs text-blue-600">Completions</div>
+          <div className="text-center p-3 bg-green-50 rounded-lg">
+            <Calendar className="w-6 h-6 text-green-600 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-green-700">{stats.totalCompletions}</div>
+            <div className="text-xs text-green-600">Completed</div>
+          </div>
+
+          <div className="text-center p-3 bg-yellow-50 rounded-lg">
+            <Calendar className="w-6 h-6 text-yellow-600 mx-auto mb-2" />
+            <div className="text-2xl font-bold text-yellow-700">{stats.totalPostponed}</div>
+            <div className="text-xs text-yellow-600">Postponed</div>
           </div>
 
           <div className="text-center p-3 bg-purple-50 rounded-lg">

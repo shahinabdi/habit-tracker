@@ -156,6 +156,16 @@ export const DataManagement: React.FC<DataManagementProps> = ({
               {habitData.habits.reduce((total, habit) => total + habit.completedDates.length, 0)}
             </span>
           </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">Total Postponed:</span>
+            <span className="font-medium">
+              {habitData.habits.reduce((total, habit) => total + (habit.postponedDates?.length || 0), 0)}
+            </span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">Data Size:</span>
+            <span className="font-medium">{(JSON.stringify(habitData).length / 1024).toFixed(1)} KB</span>
+          </div>
         </div>
       </div>
 

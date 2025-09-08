@@ -2,7 +2,26 @@
 
 <div align="center">
 
-![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![React](https:/## ✨ Features
+
+- 📅 **Monthly Calendar View** - Visual habit tracking with color-coded calendar grid
+- 🎯 **Smart Habit Management** - Add, delete, and track habits with three status states
+- 🎨 **Color-Coded Status System**:
+  - 🟢 **Green**: Completed habits
+  - 🟡 **Yellow**: Postponed habits  
+  - 🔴 **Red**: Missed habits (past days)
+  - 🔵 **Blue Ring**: Today (only day you can interact with)
+- ⏰ **Today-Only Interaction** - Users can only mark habits for the current day
+- 💡 **Habit Suggestions** - Quick access to popular habit ideas
+- 📊 **Sample Data** - Try the app with realistic habit examples
+- 🗑️ **Data Management** - Clear all data for a fresh start
+- 📱 **Responsive Design** - Works perfectly on all devices
+- 💾 **Local Storage** - Your data stays private on your device
+- 📤 **Export/Import** - Backup and restore your habit data
+- 📈 **Statistics Dashboard** - Track your progress with detailed metrics
+- 🎨 **Beautiful UI** - Modern, clean interface with Tailwind CSS
+- ⚡ **Fast Performance** - Built with Vite for lightning-fast loading
+- 🔧 **TypeScript** - Fully typed for better development experienceio/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-5.4.2-646CFF?style=for-the-badge&logo=vite&logoColor=white)

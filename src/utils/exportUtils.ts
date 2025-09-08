@@ -39,6 +39,10 @@ export const importHabits = (file: File): Promise<HabitData> => {
           if (!habit.id || !habit.name || !Array.isArray(habit.completedDates)) {
             throw new Error('Invalid habit structure');
           }
+          // Handle backwards compatibility - if postponedDates doesn't exist, initialize it
+          if (!Array.isArray(habit.postponedDates)) {
+            habit.postponedDates = [];
+          }
         }
         
         resolve(data);

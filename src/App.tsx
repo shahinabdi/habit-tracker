@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import { HabitInput } from './components/HabitInput';
 import { HabitGrid } from './components/HabitGrid';
+import { HabitLegend } from './components/HabitLegend';
 import { EmptyState } from './components/EmptyState';
 import { Stats } from './components/Stats';
 import { ExportImport } from './components/ExportImport';
@@ -29,7 +30,8 @@ function App() {
     const newHabit: Habit = {
       id: Date.now(),
       name,
-      completedDates: []
+      completedDates: [],
+      postponedDates: []
     };
 
     setHabitData(prev => ({
@@ -45,20 +47,32 @@ function App() {
     }));
   };
 
-  const toggleHabit = (habitId: number, date: string) => {
+  const toggleHabit = (habitId: number, date: string, action: 'complete' | 'postpone' | 'clear') => {
     setHabitData(prev => ({
       ...prev,
       habits: prev.habits.map(habit => {
-        if (habit.id === habitId) {
-          const isCompleted = habit.completedDates.includes(date);
-          return {
-            ...habit,
-            completedDates: isCompleted
-              ? habit.completedDates.filter(d => d !== date)
-              : [...habit.completedDates, date].sort()
-          };
+        if (habit.id !== habitId) return habit;
+
+        let newCompletedDates = [...habit.completedDates];
+        let newPostponedDates = [...habit.postponedDates];
+
+        // Remove from both arrays first
+        newCompletedDates = newCompletedDates.filter(d => d !== date);
+        newPostponedDates = newPostponedDates.filter(d => d !== date);
+
+        // Add to appropriate array based on action
+        if (action === 'complete') {
+          newCompletedDates = [...newCompletedDates, date].sort();
+        } else if (action === 'postpone') {
+          newPostponedDates = [...newPostponedDates, date].sort();
         }
-        return habit;
+        // For 'clear', we just remove from both arrays (already done above)
+
+        return {
+          ...habit,
+          completedDates: newCompletedDates,
+          postponedDates: newPostponedDates
+        };
       })
     }));
   };
@@ -143,13 +157,16 @@ function App() {
                 onSwitchToSettings={() => setActiveTab('settings')}
               />
             ) : (
-              <HabitGrid
-                habits={habitData.habits}
-                currentMonth={currentDate.month}
-                currentYear={currentDate.year}
-                onToggleHabit={toggleHabit}
-                onDeleteHabit={deleteHabit}
-              />
+              <div>
+                <HabitLegend />
+                <HabitGrid
+                  habits={habitData.habits}
+                  currentMonth={currentDate.month}
+                  currentYear={currentDate.year}
+                  onToggleHabit={toggleHabit}
+                  onDeleteHabit={deleteHabit}
+                />
+              </div>
             )}
           </div>
         )}

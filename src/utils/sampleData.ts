@@ -6,62 +6,67 @@ export const generateSampleData = (): HabitData => {
   const currentYear = currentDate.getFullYear();
   
   // Generate dates for the current month
-  const generateCompletedDates = (habit: string, completionRate: number) => {
-    const dates: string[] = [];
+  const generateHabitDates = (habit: string, completionRate: number, postponeRate: number = 0.1) => {
+    const completedDates: string[] = [];
+    const postponedDates: string[] = [];
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     
     for (let day = 1; day <= Math.min(daysInMonth, currentDate.getDate()); day++) {
       // Use a pseudo-random approach based on habit name and day for consistent sample data
-      const shouldComplete = (habit.charCodeAt(0) + day) % 100 < completionRate * 100;
-      if (shouldComplete) {
+      const randomValue = (habit.charCodeAt(0) + day) % 100;
+      
+      if (randomValue < completionRate * 100) {
         const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        dates.push(dateStr);
+        completedDates.push(dateStr);
+      } else if (randomValue < (completionRate + postponeRate) * 100) {
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        postponedDates.push(dateStr);
       }
     }
     
-    return dates;
+    return { completedDates, postponedDates };
   };
 
   const sampleHabits = [
     {
       id: 1001,
       name: '💧 Drink 8 glasses of water',
-      completedDates: generateCompletedDates('water', 0.8)
+      ...generateHabitDates('water', 0.8, 0.1)
     },
     {
       id: 1002,
       name: '🏃‍♀️ 30 minutes exercise',
-      completedDates: generateCompletedDates('exercise', 0.7)
+      ...generateHabitDates('exercise', 0.7, 0.15)
     },
     {
       id: 1003,
       name: '📚 Read for 20 minutes',
-      completedDates: generateCompletedDates('reading', 0.6)
+      ...generateHabitDates('reading', 0.6, 0.2)
     },
     {
       id: 1004,
       name: '🧘‍♂️ Meditate for 10 minutes',
-      completedDates: generateCompletedDates('meditation', 0.5)
+      ...generateHabitDates('meditation', 0.5, 0.15)
     },
     {
       id: 1005,
       name: '📝 Write in journal',
-      completedDates: generateCompletedDates('journal', 0.4)
+      ...generateHabitDates('journal', 0.4, 0.1)
     },
     {
       id: 1006,
       name: '🥗 Eat healthy breakfast',
-      completedDates: generateCompletedDates('breakfast', 0.9)
+      ...generateHabitDates('breakfast', 0.9, 0.05)
     },
     {
       id: 1007,
       name: '📱 No phone before 9 AM',
-      completedDates: generateCompletedDates('noPhone', 0.3)
+      ...generateHabitDates('noPhone', 0.3, 0.25)
     },
     {
       id: 1008,
       name: '🛏️ Make bed every morning',
-      completedDates: generateCompletedDates('makeBed', 0.85)
+      ...generateHabitDates('makeBed', 0.85, 0.1)
     }
   ];
 

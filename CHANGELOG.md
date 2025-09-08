@@ -8,12 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### ✨ Added
+- **Today-only interaction system** - Users can only mark habits for the current day
+- **Three-state color coding system**:
+  - 🟢 Green for completed habits
+  - 🟡 Yellow for postponed habits
+  - 🔴 Red for missed habits (past days)
+  - 🔵 Blue ring for today's date
+- **Habit status cycling** - Click today's cell to cycle: Not done → Completed → Postponed → Not done
+- **Visual habit legend** - Clear guide showing what each color means
+- **Enhanced statistics** - Added postponed habits tracking
 - Sample data functionality with realistic habit examples
 - Clear all data feature for fresh start
 - Habit suggestions with popular habit ideas
 - Empty state component for new users
 - Data management interface in settings
 - Enhanced habit input with suggestion dropdown
+
+### 🔒 **Behavioral Changes**
+- **Past days are now read-only** - No more retroactive habit marking
+- **Future days are disabled** - Cannot mark habits for future dates
+- **Today-focused approach** - Encourages daily habit practice
 
 ### 🔮 Planned Features
 - Analytics Dashboard with habit insights
