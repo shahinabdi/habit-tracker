@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { HabitData, Habit } from './types';
 import { generateSampleData } from './utils/sampleData';
+import { findSimilarHabit } from './utils/habitValidation';
 import { Calendar, BarChart3, Settings } from 'lucide-react';
 
 function App() {
@@ -26,10 +27,18 @@ function App() {
     habits: []
   });
 
-  const addHabit = (name: string) => {
+  const addHabit = (name: string): { success: boolean; similarHabit?: string } => {
+    // Check for duplicates and similar habits
+    const trimmedName = name.trim();
+    const similarHabit = findSimilarHabit(trimmedName, habitData.habits);
+
+    if (similarHabit) {
+      return { success: false, similarHabit }; // Return the similar habit name
+    }
+
     const newHabit: Habit = {
       id: Date.now(),
-      name,
+      name: trimmedName,
       completedDates: [],
       postponedDates: []
     };
@@ -38,6 +47,8 @@ function App() {
       ...prev,
       habits: [...prev.habits, newHabit]
     }));
+
+    return { success: true }; // Return success
   };
 
   const deleteHabit = (habitId: number) => {

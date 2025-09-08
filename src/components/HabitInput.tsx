@@ -3,24 +3,50 @@ import { Plus, Lightbulb, X } from 'lucide-react';
 import { getSampleHabitSuggestions } from '../utils/sampleData';
 
 interface HabitInputProps {
-  onAddHabit: (name: string) => void;
+  onAddHabit: (name: string) => { success: boolean; similarHabit?: string };
 }
 
 export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
   const [habitName, setHabitName] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (habitName.trim()) {
-      onAddHabit(habitName.trim());
-      setHabitName('');
+      const result = onAddHabit(habitName.trim());
+      if (result.success) {
+        setHabitName('');
+        setErrorMessage('');
+      } else {
+        setErrorMessage(
+          result.similarHabit 
+            ? `Similar habit "${result.similarHabit}" already exists! Please choose a different name.`
+            : 'This habit already exists! Please choose a different name.'
+        );
+      }
     }
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    onAddHabit(suggestion);
-    setShowSuggestions(false);
+    const result = onAddHabit(suggestion);
+    if (result.success) {
+      setShowSuggestions(false);
+      setErrorMessage('');
+    } else {
+      setErrorMessage(
+        result.similarHabit
+          ? `Similar habit "${result.similarHabit}" already exists! Please choose a different one.`
+          : 'This habit already exists! Please choose a different one.'
+      );
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHabitName(e.target.value);
+    if (errorMessage) {
+      setErrorMessage(''); // Clear error when user starts typing
+    }
   };
 
   const suggestions = getSampleHabitSuggestions().slice(0, 8);
@@ -33,11 +59,21 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
             <input
               type="text"
               value={habitName}
-              onChange={(e) => setHabitName(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Add a new habit..."
-              className="w-full px-4 py-3 text-sm sm:text-base border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 placeholder-gray-400"
+              className={`w-full px-4 py-3 text-sm sm:text-base border rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 placeholder-gray-400 ${
+                errorMessage 
+                  ? 'border-red-300 bg-red-50' 
+                  : 'border-gray-200'
+              }`}
               maxLength={50}
             />
+            {errorMessage && (
+              <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
+                <X className="h-4 w-4" />
+                {errorMessage}
+              </p>
+            )}
           </div>
           <div className="flex gap-2">
             <button
