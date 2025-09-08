@@ -107,7 +107,7 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
       cells.push(
         <div
           key={`prev-${day}`}
-          className="h-12 sm:h-14 flex items-center justify-center text-gray-300 text-sm sm:text-base rounded-xl"
+          className="h-8 sm:h-10 lg:h-12 flex items-center justify-center text-gray-300 text-xs sm:text-sm rounded-lg sm:rounded-xl"
         >
           {day}
         </div>
@@ -146,11 +146,11 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
           key={day}
           onClick={() => setSelectedDate(selectedDate === dateString ? null : dateString)}
           className={`
-            h-12 sm:h-14 rounded-xl border-2 flex items-center justify-center text-sm sm:text-base font-bold
+            h-8 sm:h-10 lg:h-12 rounded-lg sm:rounded-xl border border-2 flex items-center justify-center text-xs sm:text-sm lg:text-base font-bold
             transition-all duration-200 relative group
             ${intensityClass} ${postponedClass}
-            ${isToday ? 'ring-2 ring-blue-500 ring-offset-2 shadow-lg shadow-blue-200/30' : ''}
-            ${selectedDate === dateString ? 'ring-2 ring-purple-500 ring-offset-2 shadow-lg shadow-purple-200/30 scale-105' : ''}
+            ${isToday ? 'ring-1 sm:ring-2 ring-blue-500 ring-offset-1 sm:ring-offset-2 shadow-lg shadow-blue-200/30' : ''}
+            ${selectedDate === dateString ? 'ring-1 sm:ring-2 ring-purple-500 ring-offset-1 sm:ring-offset-2 shadow-lg shadow-purple-200/30 scale-105' : ''}
             ${total > 0 ? 'cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-emerald-200/30' : 'cursor-default opacity-60'}
           `}
           title={`${day} ${monthNames[currentMonth]}: ${completed} completed, ${postponed} postponed, ${missed} missed (${total} total habits)`}
@@ -220,7 +220,7 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
       cells.push(
         <div
           key={`next-${day}`}
-          className="h-12 sm:h-14 flex items-center justify-center text-gray-300 text-sm sm:text-base rounded-xl"
+          className="h-8 sm:h-10 lg:h-12 flex items-center justify-center text-gray-300 text-xs sm:text-sm rounded-lg sm:rounded-xl"
         >
           {day}
         </div>
@@ -284,112 +284,112 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
   const monthlyStats = getMonthlyStats();
 
   return (
-    <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-200/50 p-6 sm:p-8 backdrop-blur-sm">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-md">
-            <Calendar className="w-5 h-5 text-white" />
+    <div className="bg-gradient-to-br from-white to-gray-50 rounded-lg sm:rounded-2xl shadow-lg border border-gray-200/50 p-3 sm:p-6 lg:p-8 backdrop-blur-sm">
+      <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-8">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg sm:rounded-xl shadow-md">
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <h3 className="text-xl font-bold text-gray-800">Habit Calendar</h3>
-            <p className="text-sm text-gray-600">Track your progress over time</p>
+          <div className="min-w-0">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-800 truncate">Habit Calendar</h3>
+            <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Track your progress over time</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-1 bg-white rounded-xl shadow-sm border border-gray-200 p-1">
+        <div className="flex items-center gap-0.5 sm:gap-1 bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 p-0.5 sm:p-1">
           <button
             onClick={() => navigateMonth('prev')}
-            className="p-2 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-all duration-200 group"
+            className="p-1.5 sm:p-2 hover:bg-emerald-50 hover:text-emerald-700 rounded-md sm:rounded-lg transition-all duration-200 group"
             title="Previous month"
           >
-            <ChevronLeft className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" />
           </button>
           
-          <div className="px-4 py-2 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-lg">
-            <h4 className="text-base font-bold text-emerald-800 min-w-[140px] text-center">
+          <div className="px-2 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-md sm:rounded-lg">
+            <h4 className="text-sm sm:text-base font-bold text-emerald-800 min-w-[100px] sm:min-w-[140px] text-center">
               {monthNames[currentMonth]} {currentYear}
             </h4>
           </div>
           
           <button
             onClick={() => navigateMonth('next')}
-            className="p-2 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-all duration-200 group"
+            className="p-1.5 sm:p-2 hover:bg-emerald-50 hover:text-emerald-700 rounded-md sm:rounded-lg transition-all duration-200 group"
             title="Next month"
           >
-            <ChevronRight className="w-4 h-4 group-hover:scale-110 transition-transform" />
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" />
           </button>
         </div>
       </div>
 
       {/* Enhanced Monthly Statistics */}
       {monthlyStats.activeDays > 0 && (
-        <div className="mb-8 p-6 bg-gradient-to-br from-white to-emerald-50/30 rounded-2xl border border-emerald-200/50 shadow-lg backdrop-blur-sm">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-md">
-                <Target className="w-4 h-4 text-white" />
+        <div className="mb-4 sm:mb-6 lg:mb-8 p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-white to-emerald-50/30 rounded-lg sm:rounded-2xl border border-emerald-200/50 shadow-lg backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="p-1.5 sm:p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg sm:rounded-xl shadow-md">
+                <Target className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
               </div>
-              <div>
-                <h4 className="font-bold text-gray-800 text-lg">Monthly Overview</h4>
-                <p className="text-sm text-gray-600">Your progress summary</p>
+              <div className="min-w-0">
+                <h4 className="font-bold text-gray-800 text-base sm:text-lg">Monthly Overview</h4>
+                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Your progress summary</p>
               </div>
             </div>
-            <div className="px-3 py-2 bg-white rounded-xl border border-emerald-200/50 shadow-sm">
-              <div className="text-sm font-medium text-emerald-700">
+            <div className="px-2 sm:px-3 py-1.5 sm:py-2 bg-white rounded-lg sm:rounded-xl border border-emerald-200/50 shadow-sm self-start sm:self-center">
+              <div className="text-xs sm:text-sm font-medium text-emerald-700">
                 {monthlyStats.activeDays} active day{monthlyStats.activeDays !== 1 ? 's' : ''}
               </div>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-            <div className="group bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-4 border border-emerald-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
-              <div className="flex items-center justify-between mb-2">
-                <div className="p-1.5 bg-emerald-500 rounded-lg">
-                  <Target className="w-3 h-3 text-white" />
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-6">
+            <div className="group bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-emerald-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
+              <div className="flex items-center justify-between mb-1 sm:mb-2">
+                <div className="p-1 sm:p-1.5 bg-emerald-500 rounded-md sm:rounded-lg">
+                  <Target className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                 </div>
-                <div className="text-xl font-bold text-emerald-700">{Math.round(monthlyStats.completionRate)}%</div>
+                <div className="text-lg sm:text-xl font-bold text-emerald-700">{Math.round(monthlyStats.completionRate)}%</div>
               </div>
               <div className="text-xs font-medium text-emerald-600">Completion Rate</div>
             </div>
             
-            <div className="group bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
-              <div className="flex items-center justify-between mb-2">
-                <div className="p-1.5 bg-green-500 rounded-lg">
-                  <Check className="w-3 h-3 text-white" />
+            <div className="group bg-gradient-to-br from-green-50 to-green-100 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-green-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
+              <div className="flex items-center justify-between mb-1 sm:mb-2">
+                <div className="p-1 sm:p-1.5 bg-green-500 rounded-md sm:rounded-lg">
+                  <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                 </div>
-                <div className="text-xl font-bold text-green-700">{monthlyStats.totalCompletions}</div>
+                <div className="text-lg sm:text-xl font-bold text-green-700">{monthlyStats.totalCompletions}</div>
               </div>
               <div className="text-xs font-medium text-green-600">Total Completed</div>
             </div>
             
-            <div className="group bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-4 border border-yellow-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
-              <div className="flex items-center justify-between mb-2">
-                <div className="p-1.5 bg-yellow-500 rounded-lg">
-                  <Clock className="w-3 h-3 text-white" />
+            <div className="group bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-yellow-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
+              <div className="flex items-center justify-between mb-1 sm:mb-2">
+                <div className="p-1 sm:p-1.5 bg-yellow-500 rounded-md sm:rounded-lg">
+                  <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                 </div>
-                <div className="text-xl font-bold text-yellow-700">{monthlyStats.totalPostponed}</div>
+                <div className="text-lg sm:text-xl font-bold text-yellow-700">{monthlyStats.totalPostponed}</div>
               </div>
               <div className="text-xs font-medium text-yellow-600">Total Postponed</div>
             </div>
             
-            <div className="group bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
-              <div className="flex items-center justify-between mb-2">
-                <div className="p-1.5 bg-gray-500 rounded-lg">
-                  <X className="w-3 h-3 text-white" />
+            <div className="group bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105">
+              <div className="flex items-center justify-between mb-1 sm:mb-2">
+                <div className="p-1 sm:p-1.5 bg-gray-500 rounded-md sm:rounded-lg">
+                  <X className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                 </div>
-                <div className="text-xl font-bold text-gray-700">{monthlyStats.totalPossible - monthlyStats.totalCompletions - monthlyStats.totalPostponed}</div>
+                <div className="text-lg sm:text-xl font-bold text-gray-700">{monthlyStats.totalPossible - monthlyStats.totalCompletions - monthlyStats.totalPostponed}</div>
               </div>
               <div className="text-xs font-medium text-gray-600">Total Missed</div>
             </div>
           </div>
           
           {/* Enhanced Progress Bar */}
-          <div className="bg-white rounded-xl p-4 border border-gray-200/50 shadow-sm">
-            <div className="flex items-center justify-between text-sm text-gray-700 mb-3 font-medium">
+          <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 border border-gray-200/50 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-gray-700 mb-2 sm:mb-3 font-medium">
               <span>Monthly Progress</span>
-              <span>{monthlyStats.totalCompletions} of {monthlyStats.totalPossible} habits completed</span>
+              <span className="text-xs">{monthlyStats.totalCompletions} of {monthlyStats.totalPossible} habits completed</span>
             </div>
-            <div className="relative w-full bg-gray-200 rounded-full h-3 overflow-hidden shadow-inner">
+            <div className="relative w-full bg-gray-200 rounded-full h-2 sm:h-3 overflow-hidden shadow-inner">
               <div className="h-full flex rounded-full overflow-hidden">
                 <div 
                   className="bg-gradient-to-r from-green-400 to-green-500 transition-all duration-500 ease-out shadow-sm"
@@ -403,9 +403,9 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-yellow-400/20 rounded-full"></div>
             </div>
-            <div className="flex justify-between text-xs text-gray-500 mt-2">
+            <div className="flex justify-between text-xs text-gray-500 mt-1 sm:mt-2">
               <span>0%</span>
-              <span>50%</span>
+              <span className="hidden sm:inline">50%</span>
               <span>100%</span>
             </div>
           </div>
@@ -413,18 +413,18 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
       )}
 
       {/* Enhanced Legend with Animations */}
-      <div className="mb-8 p-6 bg-gradient-to-br from-white to-indigo-50/30 rounded-2xl border border-indigo-200/50 shadow-lg backdrop-blur-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl shadow-md">
-            <Circle className="w-4 h-4 text-white" />
+      <div className="mb-4 sm:mb-6 lg:mb-8 p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-white to-indigo-50/30 rounded-lg sm:rounded-2xl border border-indigo-200/50 shadow-lg backdrop-blur-sm">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="p-1.5 sm:p-2 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg sm:rounded-xl shadow-md">
+            <Circle className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
           </div>
-          <div>
-            <h4 className="font-bold text-gray-800 text-lg">Visual Guide</h4>
-            <p className="text-sm text-gray-600">Understanding the calendar symbols</p>
+          <div className="min-w-0">
+            <h4 className="font-bold text-gray-800 text-base sm:text-lg">Visual Guide</h4>
+            <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Understanding the calendar symbols</p>
           </div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 text-xs sm:text-sm">
           {/* Completion Rate Section */}
           <div className="bg-white rounded-xl p-4 border border-gray-200/50 shadow-sm">
             <div className="flex items-center gap-2 mb-4">
@@ -524,13 +524,13 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
       </div>
 
       {/* Enhanced Calendar Grid */}
-      <div className="mb-6 bg-white rounded-2xl p-4 border border-gray-200/50 shadow-sm">
+      <div className="mb-4 sm:mb-6 bg-white rounded-lg sm:rounded-2xl p-2 sm:p-4 border border-gray-200/50 shadow-sm overflow-x-auto">
         {/* Enhanced Day headers */}
-        <div className="grid grid-cols-7 gap-2 mb-4">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4 min-w-[280px]">
           {dayNames.map((day, index) => (
             <div 
               key={day} 
-              className={`text-center text-sm font-bold py-3 px-2 rounded-xl ${
+              className={`text-center text-xs sm:text-sm font-bold py-2 sm:py-3 px-1 sm:px-2 rounded-lg sm:rounded-xl ${
                 index === 0 || index === 6 
                   ? 'text-emerald-600 bg-emerald-50 border border-emerald-200' 
                   : 'text-gray-700 bg-gray-50 border border-gray-200'
@@ -542,37 +542,37 @@ export const HabitCalendar: React.FC<HabitCalendarProps> = ({
         </div>
         
         {/* Enhanced Calendar days */}
-        <div className="grid grid-cols-7 gap-2 p-2 bg-gray-50/50 rounded-xl">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2 p-1 sm:p-2 bg-gray-50/50 rounded-lg sm:rounded-xl min-w-[280px]">
           {renderCalendarGrid()}
         </div>
       </div>
 
       {/* Enhanced Selected Date Details */}
       {selectedDetails && (
-        <div className="mt-8 p-6 bg-gradient-to-br from-white to-purple-50/30 rounded-2xl border border-purple-200/50 shadow-xl backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-md">
-                <Calendar className="w-4 h-4 text-white" />
+        <div className="mt-4 sm:mt-6 lg:mt-8 p-3 sm:p-4 lg:p-6 bg-gradient-to-br from-white to-purple-50/30 rounded-lg sm:rounded-2xl border border-purple-200/50 shadow-xl backdrop-blur-sm animate-in slide-in-from-bottom-4 duration-300">
+          <div className="flex items-start sm:items-center justify-between mb-4 sm:mb-6">
+            <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              <div className="p-1.5 sm:p-2 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg sm:rounded-xl shadow-md flex-shrink-0">
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
               </div>
-              <div>
-                <h4 className="font-bold text-gray-800 text-lg">
+              <div className="min-w-0">
+                <h4 className="font-bold text-gray-800 text-sm sm:text-base lg:text-lg">
                   {monthNames[currentMonth]} {selectedDetails.day}, {currentYear}
                 </h4>
-                <p className="text-sm text-gray-600">Daily habit breakdown</p>
+                <p className="text-xs sm:text-sm text-gray-600">Daily habit breakdown</p>
               </div>
             </div>
             <button
               onClick={() => setSelectedDate(null)}
-              className="p-2 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all duration-200 group"
+              className="p-1.5 sm:p-2 hover:bg-red-50 hover:text-red-600 rounded-lg sm:rounded-xl transition-all duration-200 group flex-shrink-0"
               title="Close details"
             >
-              <X className="w-4 h-4 text-gray-500 group-hover:scale-110 transition-transform" />
+              <X className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 group-hover:scale-110 transition-transform" />
             </button>
           </div>
           
           {/* Enhanced Summary Cards */}
-          <div className="grid grid-cols-3 gap-3 mb-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
             <div className="bg-gradient-to-br from-green-50 to-green-100 p-3 rounded-lg border border-green-200">
               <div className="flex items-center justify-between mb-1">
                 <Check className="w-4 h-4 text-green-600" />
