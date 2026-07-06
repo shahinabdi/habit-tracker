@@ -8,6 +8,7 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
+import { Landing } from './pages/Landing';
 
 function App() {
   return (
@@ -23,8 +24,8 @@ function App() {
             <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route path="*" element={<Navigate to="/home" replace />} />
+            <Route path="/" element={<PublicOnlyRoute><Landing /></PublicOnlyRoute>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </ToastProvider>
