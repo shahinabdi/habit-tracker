@@ -1,33 +1,34 @@
 import React from 'react';
-import { Calendar, Target, TrendingUp, Award, Coffee, Heart, Github, Linkedin } from 'lucide-react';
+import { Target, TrendingUp, Award, Coffee, Github, Linkedin } from 'lucide-react';
 import { HabitData } from '../types';
-import { getDaysInMonth } from '../utils/dateUtils';
-import { HabitCalendar } from './HabitCalendar';
+import { getDaysInMonth, getMonthName, parseDateString } from '../utils/dateUtils';
 
 interface StatsProps {
   habitData: HabitData;
-  currentMonth: number;
-  currentYear: number;
-  onMonthChange: (month: number, year: number) => void;
+  selectedDate: string;
 }
 
-export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYear, onMonthChange }) => {
+export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
+  const anchor = parseDateString(selectedDate);
+  const currentMonth = anchor.getMonth();
+  const currentYear = anchor.getFullYear();
+
   const calculateStats = () => {
     const daysInMonth = getDaysInMonth(currentMonth, currentYear);
     const currentMonthStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-    
+
     let totalCompletions = 0;
     let totalPostponed = 0;
-    let totalPossible = habitData.habits.length * daysInMonth;
+    const totalPossible = habitData.habits.length * daysInMonth;
     let bestStreak = 0;
 
     habitData.habits.forEach(habit => {
-      const monthCompletions = habit.completedDates.filter(date => 
+      const monthCompletions = habit.completedDates.filter(date =>
         date.startsWith(currentMonthStr)
       ).length;
       totalCompletions += monthCompletions;
 
-      const monthPostponed = habit.postponedDates.filter(date => 
+      const monthPostponed = habit.postponedDates.filter(date =>
         date.startsWith(currentMonthStr)
       ).length;
       totalPostponed += monthPostponed;
@@ -47,194 +48,129 @@ export const Stats: React.FC<StatsProps> = ({ habitData, currentMonth, currentYe
     });
 
     const completionRate = totalPossible > 0 ? (totalCompletions / totalPossible) * 100 : 0;
-    
+
     return {
       totalHabits: habitData.habits.length,
       totalCompletions,
       totalPostponed,
       completionRate: Math.round(completionRate),
       bestStreak,
-      averageDaily: habitData.habits.length > 0 ? Math.round(totalCompletions / daysInMonth) : 0
     };
   };
 
   const stats = calculateStats();
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+
+  const tiles = [
+    { icon: Target, value: stats.totalHabits, label: 'Active Habits' },
+    { icon: TrendingUp, value: stats.totalCompletions, label: 'Completed' },
+    { icon: TrendingUp, value: stats.totalPostponed, label: 'Postponed' },
+    { icon: Award, value: `${stats.completionRate}%`, label: 'Success Rate' },
+    { icon: TrendingUp, value: stats.bestStreak, label: 'Best Streak' },
   ];
 
   return (
-    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-      {/* Habit Calendar */}
-      <div className="w-full">
-        <HabitCalendar
-          habitData={habitData}
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-          onMonthChange={onMonthChange}
-        />
-      </div>
-
+    <div className="space-y-4 sm:space-y-6">
       {/* Current Month Stats */}
-      <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 p-3 sm:p-4 lg:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 sm:p-2 bg-emerald-100 rounded-lg">
-              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
-            </div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800">
-              {monthNames[currentMonth]} Statistics
-            </h3>
-          </div>
-          <div className="sm:ml-auto">
-            <span className="text-xs sm:text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-              {currentYear}
-            </span>
-          </div>
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-5">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+            {getMonthName(currentMonth)} Statistics
+          </h3>
+          <span className="text-xs text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
+            {currentYear}
+          </span>
         </div>
 
-        {/* Responsive Stats Grid */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-          <div className="group text-center p-3 sm:p-4 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200/50 hover:shadow-md transition-all duration-200 hover:scale-105">
-            <Target className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-emerald-700">{stats.totalHabits}</div>
-            <div className="text-xs sm:text-sm text-emerald-600 font-medium">Active Habits</div>
-          </div>
-
-          <div className="group text-center p-3 sm:p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200/50 hover:shadow-md transition-all duration-200 hover:scale-105">
-            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-700">{stats.totalCompletions}</div>
-            <div className="text-xs sm:text-sm text-green-600 font-medium">Completed</div>
-          </div>
-
-          <div className="group text-center p-3 sm:p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200/50 hover:shadow-md transition-all duration-200 hover:scale-105">
-            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-yellow-700">{stats.totalPostponed}</div>
-            <div className="text-xs sm:text-sm text-yellow-600 font-medium">Postponed</div>
-          </div>
-
-          <div className="group text-center p-3 sm:p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200/50 hover:shadow-md transition-all duration-200 hover:scale-105 xs:col-span-2 sm:col-span-1">
-            <Award className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-700">{stats.completionRate}%</div>
-            <div className="text-xs sm:text-sm text-purple-600 font-medium">Success Rate</div>
-          </div>
-
-          <div className="group text-center p-3 sm:p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200/50 hover:shadow-md transition-all duration-200 hover:scale-105 xs:col-span-2 sm:col-span-3 lg:col-span-1">
-            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-orange-700">{stats.bestStreak}</div>
-            <div className="text-xs sm:text-sm text-orange-600 font-medium">Best Streak</div>
-          </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          {tiles.map(({ icon: Icon, value, label }) => (
+            <div key={label} className="text-center p-4 bg-gray-50 rounded-xl">
+              <Icon className="w-5 h-5 text-gray-400 mx-auto mb-2" />
+              <div className="text-xl sm:text-2xl font-bold text-gray-800">{value}</div>
+              <div className="text-xs text-gray-500 font-medium mt-0.5">{label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Developer Support Section */}
-      <div className="bg-gradient-to-br from-emerald-50 via-blue-50 to-purple-50 rounded-xl sm:rounded-2xl border border-emerald-200/50 p-4 sm:p-6 lg:p-8 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="p-1.5 sm:p-2 bg-red-100 rounded-lg">
-              <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
-            </div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800">Support the Developer</h3>
-          </div>
-        </div>
-        
-        <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6 leading-relaxed">
-          Enjoying Habit Tracker? Your support helps keep this project free and actively maintained for everyone!
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Support the Developer</h3>
+
+        <p className="text-gray-500 text-sm mb-5 leading-relaxed">
+          Enjoying Habit Tracker? Your support helps keep this project free and actively maintained.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
           <a
             href="https://buymeacoffee.com/shahinabdi"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black rounded-xl hover:from-yellow-500 hover:to-yellow-600 transition-all duration-200 font-medium hover:scale-105 hover:shadow-lg"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl hover:bg-amber-100 transition-colors font-medium text-sm"
           >
-            <Coffee className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-            <span className="text-sm sm:text-base">Buy me a coffee</span>
+            <Coffee className="w-4 h-4" />
+            Buy me a coffee
           </a>
-          
+
           <a
             href="https://github.com/shahinabdi/habit-tracker"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center justify-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-xl hover:from-gray-900 hover:to-black transition-all duration-200 hover:scale-105 hover:shadow-lg"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-colors font-medium text-sm"
           >
-            <Github className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-            <span className="text-sm sm:text-base">Star on GitHub</span>
+            <Github className="w-4 h-4" />
+            Star on GitHub
           </a>
         </div>
 
-        <div className="text-center bg-white/50 rounded-xl p-4 sm:p-6 backdrop-blur-sm border border-white/20">
-          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4 font-medium">Connect with the developer:</p>
-          <div className="flex justify-center gap-4 sm:gap-6">
-            <a
-              href="https://github.com/shahinabdi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-gray-200 text-gray-600 hover:text-gray-800 hover:shadow-md transition-all duration-200 hover:scale-110"
-            >
-              <Github className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-            </a>
-            <a
-              href="https://linkedin.com/in/shahinabdi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-gray-200 text-blue-600 hover:text-blue-800 hover:shadow-md transition-all duration-200 hover:scale-110"
-            >
-              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-            </a>
-          </div>
+        <div className="flex justify-center gap-3">
+          <a
+            href="https://github.com/shahinabdi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2.5 bg-gray-50 rounded-xl text-gray-500 hover:text-gray-800 transition-colors"
+          >
+            <Github className="w-5 h-5" />
+          </a>
+          <a
+            href="https://linkedin.com/in/shahinabdi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2.5 bg-gray-50 rounded-xl text-blue-500 hover:text-blue-700 transition-colors"
+          >
+            <Linkedin className="w-5 h-5" />
+          </a>
         </div>
       </div>
 
       {/* Project Info */}
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
-        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-          <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg">
-            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">About This App</h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
+            <span className="text-gray-500">Version</span>
+            <span className="font-medium text-gray-700">1.0.0</span>
           </div>
-          <h3 className="text-base sm:text-lg lg:text-xl font-bold text-gray-800">About This App</h3>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
-          <div className="space-y-3 sm:space-y-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 p-3 bg-white rounded-lg border border-gray-100 shadow-sm">
-              <span className="text-sm font-medium text-gray-700">Version:</span>
-              <span className="text-sm font-mono text-indigo-600 bg-indigo-50 px-2 py-1 rounded">1.0.0</span>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 p-3 bg-white rounded-lg border border-gray-100 shadow-sm">
-              <span className="text-sm font-medium text-gray-700">Developer:</span>
-              <span className="text-sm font-semibold text-gray-800">Shahin ABDI</span>
-            </div>
+          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
+            <span className="text-gray-500">Developer</span>
+            <span className="font-medium text-gray-700">Shahin ABDI</span>
           </div>
-          
-          <div className="space-y-3 sm:space-y-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 p-3 bg-white rounded-lg border border-gray-100 shadow-sm">
-              <span className="text-sm font-medium text-gray-700">Technology:</span>
-              <span className="text-sm font-semibold text-blue-600">React + TypeScript</span>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2 p-3 bg-white rounded-lg border border-gray-100 shadow-sm">
-              <span className="text-sm font-medium text-gray-700">License:</span>
-              <span className="text-sm font-mono text-green-600 bg-green-50 px-2 py-1 rounded">MIT</span>
-            </div>
+          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
+            <span className="text-gray-500">Technology</span>
+            <span className="font-medium text-gray-700">React + TypeScript</span>
+          </div>
+          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
+            <span className="text-gray-500">License</span>
+            <span className="font-medium text-gray-700">MIT</span>
           </div>
         </div>
 
-        <div className="p-4 sm:p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200/50">
-          <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-indigo-600" />
-            </div>
-            <div>
-              <h4 className="text-sm sm:text-base font-bold text-gray-800 mb-2">Privacy First Design</h4>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                All your habit data is stored locally on your device using browser storage. 
-                No servers, no tracking, no data collection, no analytics. 
-                Your personal habits and progress stay completely private and secure!
-              </p>
-            </div>
-          </div>
+        <div className="p-4 bg-emerald-50 rounded-xl">
+          <h4 className="text-sm font-semibold text-emerald-800 mb-1.5">Privacy First Design</h4>
+          <p className="text-xs text-emerald-700 leading-relaxed">
+            All your habit data is stored locally on your device. No servers, no tracking,
+            no data collection. Your progress stays completely private.
+          </p>
         </div>
       </div>
     </div>

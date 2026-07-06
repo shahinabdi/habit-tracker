@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Header } from './components/Header';
 import { HabitInput } from './components/HabitInput';
-import { HabitGrid } from './components/HabitGrid';
-import { HabitLegend } from './components/HabitLegend';
+import { CalendarView } from './components/calendar/CalendarView';
 import { EmptyState } from './components/EmptyState';
 import { Stats } from './components/Stats';
 import { ExportImport } from './components/ExportImport';
@@ -13,15 +12,13 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { HabitData, Habit } from './types';
 import { generateSampleData } from './utils/sampleData';
 import { findSimilarHabit } from './utils/habitValidation';
+import { getTodayString } from './utils/dateUtils';
 import { Calendar, BarChart3, Settings } from 'lucide-react';
 
 function App() {
-  const [currentDate, setCurrentDate] = useState(() => {
-    const now = new Date();
-    return { month: now.getMonth(), year: now.getFullYear() };
-  });
+  const [selectedDate, setSelectedDate] = useState(getTodayString());
 
-  const [activeTab, setActiveTab] = useState<'habits' | 'stats' | 'settings'>('habits');
+  const [activeTab, setActiveTab] = useState<'calendar' | 'stats' | 'settings'>('calendar');
 
   const [habitData, setHabitData] = useLocalStorage<HabitData>('habitTracker', {
     habits: []
@@ -65,11 +62,11 @@ function App() {
         if (habit.id !== habitId) return habit;
 
         const updatedHabit = { ...habit };
-        
+
         // Remove from both arrays first
         updatedHabit.completedDates = habit.completedDates.filter(d => d !== date);
         updatedHabit.postponedDates = habit.postponedDates.filter(d => d !== date);
-        
+
         // Add to appropriate array based on action
         if (action === 'complete') {
           updatedHabit.completedDates.push(date);
@@ -77,28 +74,10 @@ function App() {
           updatedHabit.postponedDates.push(date);
         }
         // 'clear' action leaves it in neither array
-        
+
         return updatedHabit;
       })
     }));
-  };
-
-  const handleMonthChange = (month: number, year: number) => {
-    setCurrentDate({ month, year });
-  };
-
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentDate(prev => {
-      if (direction === 'prev') {
-        return prev.month === 0
-          ? { month: 11, year: prev.year - 1 }
-          : { month: prev.month - 1, year: prev.year };
-      } else {
-        return prev.month === 11
-          ? { month: 0, year: prev.year + 1 }
-          : { month: prev.month + 1, year: prev.year };
-      }
-    });
   };
 
   const handleImport = (importedData: HabitData) => {
@@ -119,34 +98,29 @@ function App() {
   };
 
   const tabs = [
-    { id: 'habits' as const, label: 'Habits', icon: Calendar },
+    { id: 'calendar' as const, label: 'Calendar', icon: Calendar },
     { id: 'stats' as const, label: 'Statistics', icon: BarChart3 },
     { id: 'settings' as const, label: 'Settings', icon: Settings },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <Header
-          currentMonth={currentDate.month}
-          currentYear={currentDate.year}
-          onPreviousMonth={() => navigateMonth('prev')}
-          onNextMonth={() => navigateMonth('next')}
-        />
-        
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <Header />
+
         {/* Tab Navigation */}
         <div className="flex justify-center mb-6">
-          <div className="flex bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+          <div className="flex bg-white rounded-xl shadow-sm border border-gray-100 p-1 gap-1">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
                     activeTab === tab.id
-                      ? 'bg-emerald-600 text-white shadow-sm'
-                      : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -158,7 +132,7 @@ function App() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'habits' && (
+        {activeTab === 'calendar' && (
           <div>
             <HabitInput onAddHabit={addHabit} />
             {habitData.habits.length === 0 ? (
@@ -167,27 +141,19 @@ function App() {
                 onSwitchToSettings={() => setActiveTab('settings')}
               />
             ) : (
-              <div>
-                <HabitLegend />
-                <HabitGrid
-                  habits={habitData.habits}
-                  currentMonth={currentDate.month}
-                  currentYear={currentDate.year}
-                  onToggleHabit={handleToggleHabit}
-                  onDeleteHabit={deleteHabit}
-                />
-              </div>
+              <CalendarView
+                habits={habitData.habits}
+                selectedDate={selectedDate}
+                onDateChange={setSelectedDate}
+                onToggleHabit={handleToggleHabit}
+                onDeleteHabit={deleteHabit}
+              />
             )}
           </div>
         )}
 
         {activeTab === 'stats' && (
-          <Stats
-            habitData={habitData}
-            currentMonth={currentDate.month}
-            currentYear={currentDate.year}
-            onMonthChange={handleMonthChange}
-          />
+          <Stats habitData={habitData} selectedDate={selectedDate} />
         )}
 
         {activeTab === 'settings' && (
@@ -205,7 +171,7 @@ function App() {
           </div>
         )}
       </div>
-      
+
       <Footer />
     </div>
   );
