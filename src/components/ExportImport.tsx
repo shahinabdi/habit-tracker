@@ -19,7 +19,7 @@ export const ExportImport: React.FC<ExportImportProps> = ({ habitData, onImport 
       const backupData = generateBackupData(habitData);
       exportHabits(backupData);
       setMessage({ type: 'success', text: 'Habits exported successfully!' });
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to export habits. Please try again.' });
     } finally {
       setIsProcessing(false);

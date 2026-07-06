@@ -24,7 +24,7 @@ export const DataManagement: React.FC<DataManagementProps> = ({
       onLoadSampleData(sampleData);
       setMessage({ type: 'success', text: 'Sample data loaded successfully! Explore the app with realistic habit examples.' });
       setShowSampleConfirm(false);
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to load sample data. Please try again.' });
     }
   };
@@ -34,7 +34,7 @@ export const DataManagement: React.FC<DataManagementProps> = ({
       onClearData();
       setMessage({ type: 'success', text: 'All data cleared successfully! You can start fresh or load sample data.' });
       setShowClearConfirm(false);
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Failed to clear data. Please try again.' });
     }
   };

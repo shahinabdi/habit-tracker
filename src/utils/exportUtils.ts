@@ -46,7 +46,7 @@ export const importHabits = (file: File): Promise<HabitData> => {
         }
         
         resolve(data);
-      } catch (error) {
+      } catch {
         reject(new Error('Failed to parse habit data. Please check the file format.'));
       }
     };
