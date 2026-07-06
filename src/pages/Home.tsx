@@ -10,93 +10,28 @@ import { ExportImport } from '../components/ExportImport';
 import { DataManagement } from '../components/DataManagement';
 import { About } from '../components/About';
 import { Footer } from '../components/Footer';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { HabitData, Habit } from '../types';
+import { useHabits } from '../hooks/useHabits';
 import { generateSampleData } from '../utils/sampleData';
-import { findSimilarHabit } from '../utils/habitValidation';
 import { getTodayString } from '../utils/dateUtils';
 import { Calendar, BarChart3, Settings } from 'lucide-react';
 
 export const Home: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(getTodayString());
-
   const [activeTab, setActiveTab] = useState<'calendar' | 'stats' | 'settings'>('calendar');
 
-  const [habitData, setHabitData] = useLocalStorage<HabitData>('habitTracker', {
-    habits: []
-  });
-
-  const addHabit = (name: string): { success: boolean; similarHabit?: string } => {
-    // Check for duplicates and similar habits
-    const trimmedName = name.trim();
-    const similarHabit = findSimilarHabit(trimmedName, habitData.habits);
-
-    if (similarHabit) {
-      return { success: false, similarHabit }; // Return the similar habit name
-    }
-
-    const newHabit: Habit = {
-      id: Date.now(),
-      name: trimmedName,
-      completedDates: [],
-      postponedDates: []
-    };
-
-    setHabitData(prev => ({
-      ...prev,
-      habits: [...prev.habits, newHabit]
-    }));
-
-    return { success: true }; // Return success
-  };
-
-  const deleteHabit = (habitId: number) => {
-    setHabitData(prev => ({
-      ...prev,
-      habits: prev.habits.filter(habit => habit.id !== habitId)
-    }));
-  };
-
-  const handleToggleHabit = (habitId: number, date: string, action: 'complete' | 'postpone' | 'clear') => {
-    setHabitData(prevData => ({
-      ...prevData,
-      habits: prevData.habits.map(habit => {
-        if (habit.id !== habitId) return habit;
-
-        const updatedHabit = { ...habit };
-
-        // Remove from both arrays first
-        updatedHabit.completedDates = habit.completedDates.filter(d => d !== date);
-        updatedHabit.postponedDates = habit.postponedDates.filter(d => d !== date);
-
-        // Add to appropriate array based on action
-        if (action === 'complete') {
-          updatedHabit.completedDates.push(date);
-        } else if (action === 'postpone') {
-          updatedHabit.postponedDates.push(date);
-        }
-        // 'clear' action leaves it in neither array
-
-        return updatedHabit;
-      })
-    }));
-  };
-
-  const handleImport = (importedData: HabitData) => {
-    setHabitData(importedData);
-  };
-
-  const handleLoadSampleData = (sampleData: HabitData) => {
-    setHabitData(sampleData);
-  };
+  const {
+    habitData,
+    loading,
+    addHabit,
+    deleteHabit,
+    toggleHabit,
+    importHabits,
+    loadSampleData,
+    clearData,
+  } = useHabits();
 
   const handleQuickSampleLoad = () => {
-    const sampleData = generateSampleData();
-    setHabitData(sampleData);
-  };
-
-  const handleClearData = () => {
-    setHabitData({ habits: [] });
+    loadSampleData(generateSampleData());
   };
 
   const tabs = [
@@ -104,6 +39,14 @@ export const Home: React.FC = () => {
     { id: 'stats' as const, label: 'Statistics', icon: BarChart3 },
     { id: 'settings' as const, label: 'Settings', icon: Settings },
   ];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gray-200 border-t-emerald-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -157,7 +100,7 @@ export const Home: React.FC = () => {
                 habits={habitData.habits}
                 selectedDate={selectedDate}
                 onDateChange={setSelectedDate}
-                onToggleHabit={handleToggleHabit}
+                onToggleHabit={toggleHabit}
                 onDeleteHabit={deleteHabit}
               />
             )}
@@ -172,12 +115,12 @@ export const Home: React.FC = () => {
           <div className="space-y-6">
             <DataManagement
               habitData={habitData}
-              onLoadSampleData={handleLoadSampleData}
-              onClearData={handleClearData}
+              onLoadSampleData={loadSampleData}
+              onClearData={clearData}
             />
             <ExportImport
               habitData={habitData}
-              onImport={handleImport}
+              onImport={importHabits}
             />
             <About />
           </div>

@@ -3,7 +3,7 @@ import { Plus, Lightbulb, X } from 'lucide-react';
 import { getSampleHabitSuggestions } from '../utils/sampleData';
 
 interface HabitInputProps {
-  onAddHabit: (name: string) => { success: boolean; similarHabit?: string };
+  onAddHabit: (name: string) => Promise<{ success: boolean; similarHabit?: string }>;
 }
 
 export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
@@ -11,16 +11,16 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (habitName.trim()) {
-      const result = onAddHabit(habitName.trim());
+      const result = await onAddHabit(habitName.trim());
       if (result.success) {
         setHabitName('');
         setErrorMessage('');
       } else {
         setErrorMessage(
-          result.similarHabit 
+          result.similarHabit
             ? `Similar habit "${result.similarHabit}" already exists! Please choose a different name.`
             : 'This habit already exists! Please choose a different name.'
         );
@@ -28,8 +28,8 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
     }
   };
 
-  const handleSuggestionClick = (suggestion: string) => {
-    const result = onAddHabit(suggestion);
+  const handleSuggestionClick = async (suggestion: string) => {
+    const result = await onAddHabit(suggestion);
     if (result.success) {
       setShowSuggestions(false);
       setErrorMessage('');
