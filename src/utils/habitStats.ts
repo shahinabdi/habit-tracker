@@ -1,5 +1,5 @@
 import { Habit } from '../types';
-import { isFutureDate, isToday } from './dateUtils';
+import { addDays, getTodayString, isFutureDate, isToday } from './dateUtils';
 
 export type DayCategory = 'completed' | 'partial' | 'missed' | 'upcoming' | 'none';
 export type TaskStatus = 'completed' | 'postponed' | 'missed' | 'upcoming';
@@ -49,6 +49,26 @@ export const getTaskStatus = (habit: Habit, dateString: string): TaskStatus => {
   if (habit.postponedDates?.includes(dateString)) return 'postponed';
   if (isToday(dateString) || isFutureDate(dateString)) return 'upcoming';
   return 'missed';
+};
+
+// Current active streak for a single habit: consecutive completed days ending today
+// (or ending yesterday if today isn't marked done yet, so an ongoing streak isn't cut off early).
+export const getCurrentStreak = (habit: Habit): number => {
+  let cursor = getTodayString();
+  if (!habit.completedDates?.includes(cursor)) {
+    cursor = addDays(cursor, -1);
+  }
+
+  let streak = 0;
+  while (habit.completedDates?.includes(cursor)) {
+    streak++;
+    cursor = addDays(cursor, -1);
+  }
+  return streak;
+};
+
+export const getBestCurrentStreak = (habits: Habit[]): number => {
+  return habits.reduce((best, habit) => Math.max(best, getCurrentStreak(habit)), 0);
 };
 
 export const statusLabel: Record<DayCategory | TaskStatus, string> = {

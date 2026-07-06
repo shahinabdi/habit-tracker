@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { Header } from '../components/Header';
+import { WelcomeBanner } from '../components/WelcomeBanner';
 import { HabitInput } from '../components/HabitInput';
 import { CalendarView } from '../components/calendar/CalendarView';
 import { EmptyState } from '../components/EmptyState';
@@ -62,6 +63,7 @@ export const Home: React.FC = () => {
         </div>
 
         <Header />
+        <WelcomeBanner />
 
         {/* Tab Navigation */}
         <div className="flex justify-center mb-6">
