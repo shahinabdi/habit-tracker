@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Design tokens (RGB triples so Tailwind opacity modifiers work). */
+:root {
+  color-scheme: light;
+
+  --canvas: 249 250 251;
+  --surface: 255 255 255;
+  --inset: 244 245 246;
+  --edge: 243 244 246;
+  --edge-strong: 229 231 235;
+
+  --ink: 17 24 39;
+  --soft: 107 114 128;
+  --faint: 156 163 175;
+
+  --accent: 5 150 105;
+  --accent-hover: 4 120 87;
+  --accent-soft: 236 253 245;
+
+  --status-completed: 16 185 129;
+  --status-completed-soft: 209 250 229;
+  --status-partial: 245 158 11;
+  --status-partial-soft: 254 243 199;
+  --status-missed: 244 63 94;
+  --status-missed-soft: 255 228 230;
+  --status-none: 209 213 219;
+  --status-none-soft: 243 244 246;
+
+  --today: 99 102 241;
+  --today-soft: 238 242 255;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --canvas: 9 9 11;
+  --surface: 19 19 22;
+  --inset: 30 30 34;
+  --edge: 39 39 42;
+  --edge-strong: 63 63 70;
+
+  --ink: 244 244 245;
+  --soft: 161 161 170;
+  --faint: 113 113 122;
+
+  --accent: 16 185 129;
+  --accent-hover: 52 211 153;
+  --accent-soft: 13 43 34;
+
+  --status-completed: 52 211 153;
+  --status-completed-soft: 13 47 37;
+  --status-partial: 251 191 36;
+  --status-partial-soft: 46 36 16;
+  --status-missed: 251 113 133;
+  --status-missed-soft: 51 20 24;
+  --status-none: 63 63 70;
+  --status-none-soft: 30 30 34;
+
+  --today: 129 140 248;
+  --today-soft: 26 28 51;
+}
+
+body {
+  @apply bg-canvas text-ink antialiased;
+}

@@ -22,7 +22,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-ink mb-1.5">
         {label}
       </label>
       <div className="relative">
@@ -34,12 +34,12 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
           autoComplete={autoComplete}
           placeholder={placeholder}
           required
-          className="w-full px-4 py-3 pr-11 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 transition-colors placeholder-gray-400"
+          className="w-full px-4 py-3 pr-11 text-sm border border-edge-strong rounded-xl focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors placeholder-faint"
         />
         <button
           type="button"
           onClick={() => setVisible(v => !v)}
-          className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition-colors"
+          className="absolute inset-y-0 right-0 flex items-center px-3 text-faint hover:text-soft transition-colors"
           aria-label={visible ? 'Hide password' : 'Show password'}
           tabIndex={-1}
         >

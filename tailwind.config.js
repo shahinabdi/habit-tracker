@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     screens: {
       'xs': '475px',
@@ -12,13 +15,25 @@ export default {
     },
     extend: {
       colors: {
-        status: {
-          completed: { DEFAULT: '#10b981', soft: '#d1fae5' },
-          partial: { DEFAULT: '#f59e0b', soft: '#fef3c7' },
-          missed: { DEFAULT: '#f43f5e', soft: '#ffe4e6' },
-          none: { DEFAULT: '#d1d5db', soft: '#f3f4f6' },
+        canvas: v('canvas'),
+        surface: v('surface'),
+        inset: v('inset'),
+        edge: { DEFAULT: v('edge'), strong: v('edge-strong') },
+        ink: v('ink'),
+        soft: v('soft'),
+        faint: v('faint'),
+        accent: {
+          DEFAULT: v('accent'),
+          hover: v('accent-hover'),
+          soft: v('accent-soft'),
         },
-        today: { DEFAULT: '#6366f1', soft: '#eef2ff' },
+        status: {
+          completed: { DEFAULT: v('status-completed'), soft: v('status-completed-soft') },
+          partial: { DEFAULT: v('status-partial'), soft: v('status-partial-soft') },
+          missed: { DEFAULT: v('status-missed'), soft: v('status-missed-soft') },
+          none: { DEFAULT: v('status-none'), soft: v('status-none-soft') },
+        },
+        today: { DEFAULT: v('today'), soft: v('today-soft') },
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

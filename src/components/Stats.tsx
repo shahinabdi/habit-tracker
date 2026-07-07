@@ -71,32 +71,32 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Current Month Stats */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
+      <div className="bg-surface rounded-2xl border border-edge p-4 sm:p-6">
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-800">
+          <h3 className="text-base sm:text-lg font-semibold text-ink">
             {getMonthName(currentMonth)} Statistics
           </h3>
-          <span className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+          <span className="text-sm text-soft bg-inset px-3 py-1 rounded-full">
             {currentYear}
           </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {tiles.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="text-center p-4 bg-gray-50 rounded-xl">
-              <Icon className="w-5 h-5 text-gray-400 mx-auto mb-2" />
-              <div className="text-xl sm:text-2xl font-bold text-gray-800">{value}</div>
-              <div className="text-xs text-gray-500 font-medium mt-0.5">{label}</div>
+            <div key={label} className="text-center p-4 bg-inset rounded-xl">
+              <Icon className="w-5 h-5 text-faint mx-auto mb-2" />
+              <div className="text-xl sm:text-2xl font-bold text-ink">{value}</div>
+              <div className="text-xs text-soft font-medium mt-0.5">{label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Developer Support Section */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">Support the Developer</h3>
+      <div className="bg-surface rounded-2xl border border-edge p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-ink mb-4">Support the Developer</h3>
 
-        <p className="text-gray-500 text-sm mb-5 leading-relaxed">
+        <p className="text-soft text-sm mb-5 leading-relaxed">
           Enjoying Habit Tracker? Your support helps keep this project free and actively maintained.
         </p>
 
@@ -105,7 +105,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
             href="https://buymeacoffee.com/shahinabdi"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-50 text-amber-700 rounded-xl hover:bg-amber-100 transition-colors font-medium text-sm"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-status-partial-soft text-status-partial rounded-xl hover:bg-status-partial/20 transition-colors font-medium text-sm"
           >
             <Coffee className="w-4 h-4" />
             Buy me a coffee
@@ -115,7 +115,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
             href="https://github.com/shahinabdi/habit-tracker"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-50 text-gray-700 rounded-xl hover:bg-gray-100 transition-colors font-medium text-sm"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-inset text-ink rounded-xl hover:bg-edge-strong/60 transition-colors font-medium text-sm"
           >
             <Github className="w-4 h-4" />
             Star on GitHub
@@ -127,7 +127,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
             href="https://github.com/shahinabdi"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 bg-gray-50 rounded-xl text-gray-500 hover:text-gray-800 transition-colors"
+            className="p-2.5 bg-inset rounded-xl text-soft hover:text-ink transition-colors"
           >
             <Github className="w-5 h-5" />
           </a>
@@ -135,7 +135,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
             href="https://linkedin.com/in/shahinabdi"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2.5 bg-gray-50 rounded-xl text-blue-500 hover:text-blue-700 transition-colors"
+            className="p-2.5 bg-inset rounded-xl text-soft hover:text-ink transition-colors"
           >
             <Linkedin className="w-5 h-5" />
           </a>
@@ -143,33 +143,33 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
       </div>
 
       {/* Project Info */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">About This App</h3>
+      <div className="bg-surface rounded-2xl border border-edge p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-ink mb-4">About This App</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
-            <span className="text-gray-500">Version</span>
-            <span className="font-medium text-gray-700">1.0.0</span>
+          <div className="flex justify-between p-3 bg-inset rounded-xl text-sm">
+            <span className="text-soft">Version</span>
+            <span className="font-medium text-ink">1.0.0</span>
           </div>
-          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
-            <span className="text-gray-500">Developer</span>
-            <span className="font-medium text-gray-700">Shahin ABDI</span>
+          <div className="flex justify-between p-3 bg-inset rounded-xl text-sm">
+            <span className="text-soft">Developer</span>
+            <span className="font-medium text-ink">Shahin ABDI</span>
           </div>
-          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
-            <span className="text-gray-500">Technology</span>
-            <span className="font-medium text-gray-700">React + TypeScript</span>
+          <div className="flex justify-between p-3 bg-inset rounded-xl text-sm">
+            <span className="text-soft">Technology</span>
+            <span className="font-medium text-ink">React + TypeScript</span>
           </div>
-          <div className="flex justify-between p-3 bg-gray-50 rounded-xl text-sm">
-            <span className="text-gray-500">License</span>
-            <span className="font-medium text-gray-700">MIT</span>
+          <div className="flex justify-between p-3 bg-inset rounded-xl text-sm">
+            <span className="text-soft">License</span>
+            <span className="font-medium text-ink">MIT</span>
           </div>
         </div>
 
-        <div className="p-4 bg-emerald-50 rounded-xl">
-          <h4 className="text-sm font-semibold text-emerald-800 mb-1.5">Privacy First Design</h4>
-          <p className="text-xs text-emerald-700 leading-relaxed">
-            All your habit data is stored locally on your device. No servers, no tracking,
-            no data collection. Your progress stays completely private.
+        <div className="p-4 bg-accent-soft rounded-xl">
+          <h4 className="text-sm font-semibold text-accent mb-1.5">Your data, your account</h4>
+          <p className="text-xs text-soft leading-relaxed">
+            Your habits are stored securely in your private account and synced across your
+            devices. No tracking, no ads, no data sharing — only you can see your progress.
           </p>
         </div>
       </div>

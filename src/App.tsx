@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 import { HabitsProvider } from './contexts/HabitsContext';
@@ -16,7 +17,8 @@ import { Landing } from './pages/Landing';
 
 function App() {
   return (
-    <AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
       <ToastProvider>
         <BrowserRouter>
           <Routes>
@@ -45,7 +47,8 @@ function App() {
           </Routes>
         </BrowserRouter>
       </ToastProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

@@ -35,17 +35,17 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={() => onDateChange(addMonths(selectedDate, -1))}
-          className="p-2.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="p-2.5 rounded-full text-faint hover:text-ink hover:bg-inset transition-colors"
           aria-label="Previous month"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-base sm:text-lg font-semibold text-gray-800">
+        <h2 className="text-base sm:text-lg font-semibold text-ink">
           {getMonthName(month)} {year}
         </h2>
         <button
           onClick={() => onDateChange(addMonths(selectedDate, 1))}
-          className="p-2.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="p-2.5 rounded-full text-faint hover:text-ink hover:bg-inset transition-colors"
           aria-label="Next month"
         >
           <ChevronRight className="w-5 h-5" />
@@ -54,7 +54,7 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
 
       <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-2">
         {dayNames.map(name => (
-          <div key={name} className="text-center text-xs font-medium text-gray-400 py-1">
+          <div key={name} className="text-center text-xs font-medium text-faint py-1">
             {name}
           </div>
         ))}
@@ -75,11 +75,11 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
             <button
               key={day}
               onClick={() => onOpenDay(dateString)}
-              className={`h-14 lg:h-16 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-colors hover:bg-gray-50 ${
-                today ? 'ring-2 ring-today ring-offset-1 bg-today-soft' : ''
+              className={`h-14 lg:h-16 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-colors hover:bg-inset ${
+                today ? 'ring-2 ring-today ring-offset-1 ring-offset-surface bg-today-soft' : ''
               }`}
             >
-              <span className={`text-sm font-medium ${today ? 'text-today' : 'text-gray-700'}`}>
+              <span className={`text-sm font-medium ${today ? 'text-today' : 'text-ink'}`}>
                 {day}
               </span>
               <StatusIcon status={category} size="sm" />
@@ -89,7 +89,7 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-sm text-gray-500">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-sm text-soft">
         <span className="flex items-center gap-1.5"><StatusIcon status="completed" size="sm" /> Completed</span>
         <span className="flex items-center gap-1.5"><StatusIcon status="partial" size="sm" /> Partial</span>
         <span className="flex items-center gap-1.5"><StatusIcon status="missed" size="sm" /> Missed</span>

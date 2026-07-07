@@ -36,17 +36,17 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 lg:p-8">
+    <div className="bg-surface rounded-2xl border border-edge p-4 sm:p-6 lg:p-8">
       <div className="flex justify-center mb-6">
-        <div className="inline-flex bg-gray-50 rounded-xl p-1 gap-1">
+        <div className="inline-flex bg-inset rounded-xl p-1 gap-1">
           {viewOptions.map(option => (
             <button
               key={option.id}
               onClick={() => setViewMode(option.id)}
               className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 viewMode === option.id
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-surface text-ink shadow-sm'
+                  : 'text-soft hover:text-ink'
               }`}
             >
               {option.label}

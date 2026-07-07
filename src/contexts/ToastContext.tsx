@@ -15,9 +15,9 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
-const styles: Record<ToastType, { bg: string; text: string; icon: React.ElementType }> = {
-  success: { bg: 'bg-status-completed-soft', text: 'text-emerald-800', icon: CheckCircle2 },
-  error: { bg: 'bg-status-missed-soft', text: 'text-rose-800', icon: XCircle },
+const styles: Record<ToastType, { iconColor: string; icon: React.ElementType }> = {
+  success: { iconColor: 'text-status-completed', icon: CheckCircle2 },
+  error: { iconColor: 'text-status-missed', icon: XCircle },
 };
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -38,15 +38,18 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {children}
       <div className="fixed bottom-4 inset-x-4 sm:inset-x-auto sm:right-4 z-50 flex flex-col gap-2 sm:max-w-sm">
         {toasts.map(toast => {
-          const { bg, text, icon: Icon } = styles[toast.type];
+          const { iconColor, icon: Icon } = styles[toast.type];
           return (
             <div
               key={toast.id}
-              className={`flex items-start gap-3 px-4 py-3 rounded-2xl shadow-lg ${bg} ${text} animate-view-enter`}
+              className="flex items-start gap-3 px-4 py-3 rounded-2xl shadow-lg bg-surface border border-edge text-ink animate-view-enter"
             >
-              <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+              <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${iconColor}`} />
               <span className="flex-1 text-sm font-medium">{toast.message}</span>
-              <button onClick={() => dismiss(toast.id)} className="opacity-60 hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => dismiss(toast.id)}
+                className="text-faint hover:text-soft transition-colors"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>

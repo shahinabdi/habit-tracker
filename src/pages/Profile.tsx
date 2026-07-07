@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Mail, Calendar, BadgeCheck, Target, CheckCircle2, Flame, Pencil, Check, X } from 'lucide-react';
+import { LogOut, Mail, Calendar, BadgeCheck, Target, CheckCircle2, Flame, Pencil, Check, X, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useHabits } from '../hooks/useHabits';
 import { useToast } from '../contexts/ToastContext';
 import { getBestCurrentStreak } from '../utils/habitStats';
@@ -9,6 +10,7 @@ import { getDisplayName } from '../utils/user';
 
 export const Profile: React.FC = () => {
   const { user, signOut, updateProfile } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const { habitData, loading } = useHabits();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -60,9 +62,9 @@ export const Profile: React.FC = () => {
   return (
     <div className="py-2">
       <div className="max-w-sm mx-auto">
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8">
-          <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl font-semibold text-emerald-600">
+        <div className="bg-surface rounded-2xl border border-edge p-6 sm:p-8">
+          <div className="w-16 h-16 bg-accent-soft rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl font-semibold text-accent">
               {getDisplayName(user)[0]?.toUpperCase() ?? '?'}
             </span>
           </div>
@@ -75,19 +77,19 @@ export const Profile: React.FC = () => {
                 onChange={e => setNameInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSaveName()}
                 maxLength={50}
-                className="text-center text-lg font-semibold text-gray-800 border border-gray-200 rounded-lg px-2 py-1 w-40 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 transition-colors"
+                className="text-center text-lg font-semibold text-ink border border-edge-strong rounded-lg px-2 py-1 w-40 focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors"
               />
               <button
                 onClick={handleSaveName}
                 disabled={savingName}
-                className="p-1.5 rounded-lg text-emerald-600 hover:bg-emerald-50 transition-colors disabled:opacity-50"
+                className="p-1.5 rounded-lg text-accent hover:bg-accent-soft transition-colors disabled:opacity-50"
                 aria-label="Save name"
               >
                 <Check className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setEditingName(false)}
-                className="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 transition-colors"
+                className="p-1.5 rounded-lg text-faint hover:bg-inset transition-colors"
                 aria-label="Cancel"
               >
                 <X className="w-4 h-4" />
@@ -98,13 +100,13 @@ export const Profile: React.FC = () => {
               onClick={startEditingName}
               className="group flex items-center justify-center gap-1.5 mx-auto mb-1"
             >
-              <h2 className="text-lg font-semibold text-gray-800">{getDisplayName(user)}</h2>
-              <Pencil className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-500 transition-colors" />
+              <h2 className="text-lg font-semibold text-ink">{getDisplayName(user)}</h2>
+              <Pencil className="w-3.5 h-3.5 text-faint group-hover:text-soft transition-colors" />
             </button>
           )}
 
           {user?.email_confirmed_at && (
-            <p className="flex items-center justify-center gap-1 text-xs text-emerald-600 mt-1 mb-6">
+            <p className="flex items-center justify-center gap-1 text-xs text-accent mt-1 mb-6">
               <BadgeCheck className="w-3.5 h-3.5" />
               Verified account
             </p>
@@ -114,35 +116,53 @@ export const Profile: React.FC = () => {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-2 mb-6">
             {stats.map(({ icon: Icon, value, label }) => (
-              <div key={label} className="text-center p-3 bg-gray-50 rounded-xl">
-                <Icon className="w-4 h-4 text-gray-400 mx-auto mb-1.5" />
-                <div className="text-lg font-bold text-gray-800">{loading ? '—' : value}</div>
-                <div className="text-xs text-gray-500 font-medium">{label}</div>
+              <div key={label} className="text-center p-3 bg-inset rounded-xl">
+                <Icon className="w-4 h-4 text-faint mx-auto mb-1.5" />
+                <div className="text-lg font-bold text-ink">{loading ? '—' : value}</div>
+                <div className="text-xs text-soft font-medium">{label}</div>
               </div>
             ))}
           </div>
 
           <div className="space-y-3 mb-6">
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-              <Mail className="w-4 h-4 text-gray-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 p-3 bg-inset rounded-xl">
+              <Mail className="w-4 h-4 text-faint flex-shrink-0" />
               <div className="min-w-0">
-                <div className="text-xs text-gray-500">Email</div>
-                <div className="text-sm font-medium text-gray-800 truncate">{user?.email}</div>
+                <div className="text-xs text-soft">Email</div>
+                <div className="text-sm font-medium text-ink truncate">{user?.email}</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-              <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
+            <div className="flex items-center gap-3 p-3 bg-inset rounded-xl">
+              <Calendar className="w-4 h-4 text-faint flex-shrink-0" />
               <div className="min-w-0">
-                <div className="text-xs text-gray-500">Member since</div>
-                <div className="text-sm font-medium text-gray-800">{memberSince}</div>
+                <div className="text-xs text-soft">Member since</div>
+                <div className="text-sm font-medium text-ink">{memberSince}</div>
               </div>
             </div>
+
+            <button
+              onClick={toggleTheme}
+              className="w-full flex items-center gap-3 p-3 bg-inset rounded-xl hover:bg-edge-strong/60 transition-colors text-left"
+            >
+              {theme === 'dark' ? (
+                <Moon className="w-4 h-4 text-faint flex-shrink-0" />
+              ) : (
+                <Sun className="w-4 h-4 text-faint flex-shrink-0" />
+              )}
+              <div className="min-w-0 flex-1">
+                <div className="text-xs text-soft">Appearance</div>
+                <div className="text-sm font-medium text-ink">
+                  {theme === 'dark' ? 'Dark mode' : 'Light mode'}
+                </div>
+              </div>
+              <span className="text-xs text-faint">Tap to switch</span>
+            </button>
           </div>
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-status-missed-soft text-rose-700 rounded-xl hover:bg-rose-100 transition-colors font-medium text-sm"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-status-missed-soft text-status-missed rounded-xl hover:bg-status-missed/20 transition-colors font-medium text-sm"
           >
             <LogOut className="w-4 h-4" />
             Log out

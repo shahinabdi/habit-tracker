@@ -20,7 +20,7 @@ export const Home: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <div className="w-8 h-8 border-2 border-gray-200 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-edge-strong border-t-accent rounded-full animate-spin" />
       </div>
     );
   }
@@ -52,7 +52,7 @@ export const Home: React.FC = () => {
       {/* Mobile FAB */}
       <button
         onClick={() => setSheetOpen(true)}
-        className="sm:hidden fixed z-40 right-4 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] w-14 h-14 bg-emerald-600 text-white rounded-full shadow-lg shadow-emerald-600/30 flex items-center justify-center active:scale-95 transition-transform"
+        className="sm:hidden fixed z-40 right-4 bottom-[calc(4.5rem+env(safe-area-inset-bottom))] w-14 h-14 bg-accent text-white rounded-full shadow-lg shadow-accent/30 flex items-center justify-center active:scale-95 transition-transform"
         aria-label="Add a habit"
       >
         <Plus className="w-6 h-6" />

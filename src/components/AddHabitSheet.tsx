@@ -30,14 +30,14 @@ export const AddHabitSheet: React.FC<AddHabitSheetProps> = ({ open, onClose, onA
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Add a habit">
       <div className="absolute inset-0 bg-black/30 animate-backdrop-in" onClick={onClose} />
 
-      <div className="absolute bottom-0 inset-x-0 bg-white rounded-t-3xl p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] animate-sheet-up max-h-[85vh] overflow-y-auto">
-        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+      <div className="absolute bottom-0 inset-x-0 bg-surface rounded-t-3xl p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] animate-sheet-up max-h-[85vh] overflow-y-auto">
+        <div className="w-10 h-1 bg-edge-strong rounded-full mx-auto mb-4" />
 
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-gray-800">New habit</h2>
+          <h2 className="text-base font-semibold text-ink">New habit</h2>
           <button
             onClick={onClose}
-            className="p-2.5 -m-1 rounded-xl text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors"
+            className="p-2.5 -m-1 rounded-xl text-faint hover:text-soft hover:bg-inset transition-colors"
             aria-label="Close"
           >
             <X className="w-5 h-5" />

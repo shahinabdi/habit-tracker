@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarDays, TrendingUp, Cloud, Sparkles } from 'lucide-react';
 import { Footer } from '../components/Footer';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 const features = [
   {
@@ -28,21 +29,22 @@ const features = [
 
 export const Landing: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-canvas flex flex-col">
       <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         {/* Nav */}
         <nav className="flex items-center justify-between py-6">
-          <span className="text-lg font-bold text-gray-900 tracking-tight">Habit Tracker</span>
+          <span className="text-lg font-bold text-ink tracking-tight">Habit Tracker</span>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               to="/login"
-              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-soft hover:text-ink transition-colors"
             >
               Log in
             </Link>
             <Link
               to="/register"
-              className="px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors text-sm font-medium"
+              className="px-4 py-2 bg-accent text-white rounded-xl hover:bg-accent-hover transition-colors text-sm font-medium"
             >
               Sign up
             </Link>
@@ -51,24 +53,24 @@ export const Landing: React.FC = () => {
 
         {/* Hero */}
         <div className="text-center py-14 sm:py-20">
-          <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-bold text-ink tracking-tight leading-tight">
             Build habits that
             <br />
             actually stick.
           </h1>
-          <p className="text-gray-500 text-base sm:text-lg mt-5 max-w-md mx-auto">
+          <p className="text-soft text-base sm:text-lg mt-5 max-w-md mx-auto">
             A calm, modern habit tracker with daily, weekly, and monthly views — so you always know what matters today.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
             <Link
               to="/register"
-              className="w-full sm:w-auto px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium text-sm"
+              className="w-full sm:w-auto px-6 py-3 bg-accent text-white rounded-xl hover:bg-accent-hover transition-colors font-medium text-sm"
             >
               Get started — it's free
             </Link>
             <Link
               to="/login"
-              className="w-full sm:w-auto px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-100 transition-colors font-medium text-sm"
+              className="w-full sm:w-auto px-6 py-3 bg-surface border border-edge-strong text-ink rounded-xl hover:bg-inset transition-colors font-medium text-sm"
             >
               Log in
             </Link>
@@ -78,12 +80,12 @@ export const Landing: React.FC = () => {
         {/* Features */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-16 sm:pb-24">
           {features.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="bg-white rounded-2xl border border-gray-100 p-5 sm:p-6">
-              <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center mb-3">
-                <Icon className="w-4 h-4 text-emerald-600" />
+            <div key={title} className="bg-surface rounded-2xl border border-edge p-5 sm:p-6">
+              <div className="w-9 h-9 bg-accent-soft rounded-xl flex items-center justify-center mb-3">
+                <Icon className="w-4 h-4 text-accent" />
               </div>
-              <h3 className="font-semibold text-gray-800 mb-1">{title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+              <h3 className="font-semibold text-ink mb-1">{title}</h3>
+              <p className="text-sm text-soft leading-relaxed">{description}</p>
             </div>
           ))}
         </div>
