@@ -20,11 +20,11 @@ export const PasswordStrength: React.FC<{ password: string }> = ({ password }) =
         {[0, 1, 2].map(i => (
           <div
             key={i}
-            className={`h-1 flex-1 rounded-full transition-colors ${i < bars ? color : 'bg-gray-100'}`}
+            className={`h-1 flex-1 rounded-full transition-colors ${i < bars ? color : 'bg-inset'}`}
           />
         ))}
       </div>
-      <span className="text-xs text-gray-400 font-medium w-12 text-right">{label}</span>
+      <span className="text-xs text-faint font-medium w-12 text-right">{label}</span>
     </div>
   );
 };

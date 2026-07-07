@@ -52,7 +52,7 @@ export const Register: React.FC = () => {
       footer={
         <span>
           Already have an account?{' '}
-          <Link to="/login" className="text-emerald-600 font-medium hover:text-emerald-700">
+          <Link to="/login" className="text-accent font-medium hover:text-accent">
             Log in
           </Link>
         </span>
@@ -60,7 +60,7 @@ export const Register: React.FC = () => {
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label htmlFor="email" className="block text-sm font-medium text-ink mb-1.5">
             Email
           </label>
           <input
@@ -71,7 +71,7 @@ export const Register: React.FC = () => {
             autoComplete="email"
             placeholder="you@example.com"
             required
-            className="w-full px-4 py-3 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 transition-colors placeholder-gray-400"
+            className="w-full px-4 py-3 text-sm border border-edge-strong rounded-xl focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors placeholder-faint"
           />
         </div>
 
@@ -101,7 +101,7 @@ export const Register: React.FC = () => {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent text-white rounded-xl hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
         >
           <UserPlus className="w-4 h-4" />
           {submitting ? 'Creating account…' : 'Sign up'}

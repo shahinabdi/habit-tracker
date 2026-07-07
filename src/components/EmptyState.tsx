@@ -8,38 +8,38 @@ interface EmptyStateProps {
 
 export const EmptyState: React.FC<EmptyStateProps> = ({ onLoadSampleData, onSwitchToSettings }) => {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-8 sm:p-10 text-center">
+    <div className="bg-surface rounded-2xl border border-edge p-8 sm:p-10 text-center">
       <div className="max-w-md mx-auto">
-        <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-5">
-          <Sparkles className="w-6 h-6 text-emerald-500" />
+        <div className="w-14 h-14 bg-accent-soft rounded-full flex items-center justify-center mx-auto mb-5">
+          <Sparkles className="w-6 h-6 text-accent" />
         </div>
 
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+        <h3 className="text-lg font-semibold text-ink mb-2">
           Start your first habit
         </h3>
 
-        <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-          Add a habit above and it'll show up in your daily calendar, ready to track.
+        <p className="text-soft text-sm mb-6 leading-relaxed">
+          Add your first habit and it'll show up in your daily calendar, ready to track.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             onClick={onLoadSampleData}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors font-medium text-sm"
+            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-accent text-white rounded-xl hover:bg-accent-hover transition-colors font-medium text-sm"
           >
             <Download className="w-4 h-4" />
             Try sample habits
           </button>
 
-          <div className="flex items-center justify-center gap-2 px-5 py-2.5 text-gray-400 text-sm">
+          <div className="flex items-center justify-center gap-2 px-5 py-2.5 text-soft text-sm">
             <Plus className="w-4 h-4" />
-            Or add your own above
+            Or add your own anytime
           </div>
         </div>
 
         <button
           onClick={onSwitchToSettings}
-          className="mt-6 text-sm text-gray-400 hover:text-emerald-600 font-medium transition-colors"
+          className="mt-6 text-sm text-faint hover:text-accent font-medium transition-colors"
         >
           Explore more options in Settings →
         </button>

@@ -48,7 +48,7 @@ export const ResetPassword: React.FC = () => {
   if (loading) {
     return (
       <AuthLayout title="Reset your password">
-        <p className="text-sm text-gray-500 text-center">Verifying link…</p>
+        <p className="text-sm text-soft text-center">Verifying link…</p>
       </AuthLayout>
     );
   }
@@ -59,12 +59,12 @@ export const ResetPassword: React.FC = () => {
         title="Link expired"
         subtitle="This password reset link is invalid or has expired"
         footer={
-          <Link to="/forgot-password" className="text-emerald-600 font-medium hover:text-emerald-700">
+          <Link to="/forgot-password" className="text-accent font-medium hover:text-accent">
             Request a new link
           </Link>
         }
       >
-        <p className="text-sm text-gray-500">Request a new password reset email and try again.</p>
+        <p className="text-sm text-soft">Request a new password reset email and try again.</p>
       </AuthLayout>
     );
   }
@@ -98,7 +98,7 @@ export const ResetPassword: React.FC = () => {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent text-white rounded-xl hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
         >
           <KeyRound className="w-4 h-4" />
           {submitting ? 'Updating…' : 'Update password'}

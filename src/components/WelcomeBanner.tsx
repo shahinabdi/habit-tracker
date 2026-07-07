@@ -8,11 +8,11 @@ export const WelcomeBanner: React.FC = () => {
   const displayName = getDisplayName(user);
 
   return (
-    <div className="bg-emerald-50 rounded-2xl p-5 sm:p-6 mb-6 text-center">
-      <p className="text-sm text-emerald-700/70">
-        {getGreeting()}, <span className="font-medium text-emerald-800">{displayName}</span>
+    <div className="bg-accent-soft rounded-2xl p-5 sm:p-6 mb-6 text-center">
+      <p className="text-sm text-accent/70">
+        {getGreeting()}, <span className="font-medium text-accent">{displayName}</span>
       </p>
-      <p className="text-base sm:text-lg font-medium text-emerald-900 mt-1">{getDailyPhrase()}</p>
+      <p className="text-base sm:text-lg font-medium text-ink mt-1">{getDailyPhrase()}</p>
     </div>
   );
 };

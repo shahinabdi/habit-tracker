@@ -12,12 +12,13 @@ interface WeeklyViewProps {
   onOpenDay: (date: string) => void;
 }
 
+// CSS-variable references keep the rings theme-reactive in light and dark mode.
 const ringColor: Record<DayCategory, string> = {
-  completed: '#10b981',
-  partial: '#f59e0b',
-  missed: '#f43f5e',
-  upcoming: '#e5e7eb',
-  none: '#e5e7eb',
+  completed: 'rgb(var(--status-completed))',
+  partial: 'rgb(var(--status-partial))',
+  missed: 'rgb(var(--status-missed))',
+  upcoming: 'rgb(var(--inset))',
+  none: 'rgb(var(--inset))',
 };
 
 export const WeeklyView: React.FC<WeeklyViewProps> = ({
@@ -44,15 +45,15 @@ export const WeeklyView: React.FC<WeeklyViewProps> = ({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={() => onDateChange(addDays(first, -7))}
-          className="p-2.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="p-2.5 rounded-full text-faint hover:text-ink hover:bg-inset transition-colors"
           aria-label="Previous week"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <h2 className="text-base sm:text-lg font-semibold text-gray-800">{rangeLabel}</h2>
+        <h2 className="text-base sm:text-lg font-semibold text-ink">{rangeLabel}</h2>
         <button
           onClick={() => onDateChange(addDays(first, 7))}
-          className="p-2.5 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          className="p-2.5 rounded-full text-faint hover:text-ink hover:bg-inset transition-colors"
           aria-label="Next week"
         >
           <ChevronRight className="w-5 h-5" />
@@ -72,22 +73,22 @@ export const WeeklyView: React.FC<WeeklyViewProps> = ({
             <button
               key={date}
               onClick={() => onOpenDay(date)}
-              className="flex-shrink-0 snap-center flex flex-col items-center gap-2 rounded-2xl py-3 px-2 hover:bg-gray-50 transition-colors"
+              className="flex-shrink-0 snap-center flex flex-col items-center gap-2 rounded-2xl py-3 px-2 hover:bg-inset transition-colors"
             >
-              <span className="text-xs font-medium text-gray-400">{getDayNameShort(date)}</span>
+              <span className="text-sm font-medium text-soft">{getDayNameShort(date)}</span>
               <div
                 className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full ${
-                  today ? 'ring-2 ring-today ring-offset-2' : ''
+                  today ? 'ring-2 ring-today ring-offset-2 ring-offset-surface' : ''
                 }`}
                 style={{
                   background:
                     ratio > 0
-                      ? `conic-gradient(${color} ${ratio * 360}deg, #f3f4f6 0deg)`
-                      : '#f3f4f6',
+                      ? `conic-gradient(${color} ${ratio * 360}deg, rgb(var(--inset)) 0deg)`
+                      : 'rgb(var(--inset))',
                 }}
               >
-                <div className="absolute inset-[3px] rounded-full bg-white flex items-center justify-center">
-                  <span className="text-sm font-semibold text-gray-800">{day}</span>
+                <div className="absolute inset-[3px] rounded-full bg-surface flex items-center justify-center">
+                  <span className="text-sm font-semibold text-ink">{day}</span>
                 </div>
               </div>
             </button>

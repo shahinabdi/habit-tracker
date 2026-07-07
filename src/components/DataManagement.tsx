@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Database, Trash2, Download, AlertTriangle, CheckCircle, Lightbulb } from 'lucide-react';
+import { Database, Trash2, Download, AlertTriangle, CheckCircle, X } from 'lucide-react';
 import { HabitData } from '../types';
-import { generateSampleData, getSampleHabitSuggestions } from '../utils/sampleData';
+import { generateSampleData } from '../utils/sampleData';
 
 interface DataManagementProps {
   habitData: HabitData;
@@ -9,20 +9,19 @@ interface DataManagementProps {
   onClearData: () => void;
 }
 
-export const DataManagement: React.FC<DataManagementProps> = ({ 
-  habitData, 
-  onLoadSampleData, 
-  onClearData 
+export const DataManagement: React.FC<DataManagementProps> = ({
+  habitData,
+  onLoadSampleData,
+  onClearData
 }) => {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [showSampleConfirm, setShowSampleConfirm] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const handleLoadSampleData = () => {
     try {
-      const sampleData = generateSampleData();
-      onLoadSampleData(sampleData);
-      setMessage({ type: 'success', text: 'Sample data loaded successfully! Explore the app with realistic habit examples.' });
+      onLoadSampleData(generateSampleData());
+      setMessage({ type: 'success', text: 'Sample data loaded. Explore the app with realistic examples.' });
       setShowSampleConfirm(false);
     } catch {
       setMessage({ type: 'error', text: 'Failed to load sample data. Please try again.' });
@@ -32,225 +31,128 @@ export const DataManagement: React.FC<DataManagementProps> = ({
   const handleClearData = () => {
     try {
       onClearData();
-      setMessage({ type: 'success', text: 'All data cleared successfully! You can start fresh or load sample data.' });
+      setMessage({ type: 'success', text: 'All data cleared. You can start fresh or load sample data.' });
       setShowClearConfirm(false);
     } catch {
       setMessage({ type: 'error', text: 'Failed to clear data. Please try again.' });
     }
   };
 
-  const clearMessage = () => {
-    setMessage(null);
-  };
-
-  const getMessageIcon = () => {
-    if (!message) return null;
-    
-    switch (message.type) {
-      case 'success':
-        return <CheckCircle className="w-4 h-4 text-green-600" />;
-      case 'error':
-        return <AlertTriangle className="w-4 h-4 text-red-600" />;
-      case 'info':
-        return <Database className="w-4 h-4 text-blue-600" />;
-      default:
-        return null;
-    }
-  };
-
-  const getMessageStyles = () => {
-    if (!message) return '';
-    
-    switch (message.type) {
-      case 'success':
-        return 'bg-green-50 text-green-800 border-green-200';
-      case 'error':
-        return 'bg-red-50 text-red-800 border-red-200';
-      case 'info':
-        return 'bg-blue-50 text-blue-800 border-blue-200';
-      default:
-        return '';
-    }
-  };
-
-  const sampleSuggestions = getSampleHabitSuggestions().slice(0, 6);
+  const totalCompletions = habitData.habits.reduce((t, h) => t + h.completedDates.length, 0);
+  const totalPostponed = habitData.habits.reduce((t, h) => t + (h.postponedDates?.length || 0), 0);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Database className="w-5 h-5 text-gray-600" />
-        <h3 className="text-lg font-semibold text-gray-800">Data Management</h3>
+    <div className="bg-surface rounded-2xl border border-edge p-4 sm:p-6">
+      <div className="flex items-center gap-2.5 mb-1.5">
+        <Database className="w-4 h-4 text-faint" />
+        <h3 className="text-base sm:text-lg font-semibold text-ink">Data Management</h3>
       </div>
-      
-      <p className="text-gray-600 text-sm mb-6">
-        Manage your habit data with sample data for testing or clear everything to start fresh.
+
+      <p className="text-soft text-sm mb-5">
+        Load sample data to explore, or clear everything for a fresh start.
       </p>
 
-      {/* Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        {/* Load Sample Data */}
-        <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-center gap-2 mb-2">
-            <Download className="w-4 h-4 text-blue-600" />
-            <span className="font-medium text-blue-800">Load Sample Data</span>
-          </div>
-          <p className="text-sm text-blue-700 mb-3">
-            Try the app with realistic habit examples and progress data
+      {/* Actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+        <div className="p-4 bg-inset rounded-xl">
+          <div className="font-medium text-ink text-sm mb-1">Load sample data</div>
+          <p className="text-sm text-soft mb-3">
+            Try the app with realistic habits and progress.
           </p>
           <button
             onClick={() => setShowSampleConfirm(true)}
-            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-accent text-white rounded-xl hover:bg-accent-hover transition-colors text-sm font-medium"
           >
-            Load Sample Habits
+            <Download className="w-4 h-4" />
+            Load sample habits
           </button>
         </div>
 
-        {/* Clear All Data */}
-        <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-          <div className="flex items-center gap-2 mb-2">
-            <Trash2 className="w-4 h-4 text-red-600" />
-            <span className="font-medium text-red-800">Clear All Data</span>
-          </div>
-          <p className="text-sm text-red-700 mb-3">
-            Remove all habits and progress to start completely fresh
+        <div className="p-4 bg-inset rounded-xl">
+          <div className="font-medium text-ink text-sm mb-1">Clear all data</div>
+          <p className="text-sm text-soft mb-3">
+            Remove all habits and progress permanently.
           </p>
           <button
             onClick={() => setShowClearConfirm(true)}
             disabled={habitData.habits.length === 0}
-            className="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors text-sm font-medium"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-status-missed-soft text-status-missed rounded-xl hover:bg-status-missed/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-medium"
           >
-            Clear All Data
+            <Trash2 className="w-4 h-4" />
+            Clear all data
           </button>
         </div>
       </div>
 
-      {/* Sample Habit Suggestions */}
-      <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className="w-4 h-4 text-yellow-600" />
-          <h4 className="font-medium text-yellow-800">Sample Habit Ideas</h4>
+      {/* Current Data Summary */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="text-center p-3 bg-inset rounded-xl">
+          <div className="text-lg font-bold text-ink">{habitData.habits.length}</div>
+          <div className="text-xs text-soft font-medium">Habits</div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {sampleSuggestions.map((habit, index) => (
-            <div key={index} className="text-sm text-yellow-700 bg-yellow-100 px-2 py-1 rounded">
-              {habit}
-            </div>
-          ))}
+        <div className="text-center p-3 bg-inset rounded-xl">
+          <div className="text-lg font-bold text-ink">{totalCompletions}</div>
+          <div className="text-xs text-soft font-medium">Completions</div>
         </div>
-        <p className="text-xs text-yellow-600 mt-2">
-          Load sample data to see these habits with realistic progress!
-        </p>
-      </div>
-
-      {/* Current Data Info */}
-      <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
-        <h4 className="font-medium text-gray-700 mb-2">Current Data Summary</h4>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-600">Total Habits:</span>
-            <span className="font-medium">{habitData.habits.length}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Total Completions:</span>
-            <span className="font-medium">
-              {habitData.habits.reduce((total, habit) => total + habit.completedDates.length, 0)}
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Total Postponed:</span>
-            <span className="font-medium">
-              {habitData.habits.reduce((total, habit) => total + (habit.postponedDates?.length || 0), 0)}
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Data Size:</span>
-            <span className="font-medium">{(JSON.stringify(habitData).length / 1024).toFixed(1)} KB</span>
-          </div>
+        <div className="text-center p-3 bg-inset rounded-xl">
+          <div className="text-lg font-bold text-ink">{totalPostponed}</div>
+          <div className="text-xs text-soft font-medium">Postponed</div>
         </div>
       </div>
 
-      {/* Confirmation Modals */}
-      {showSampleConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="w-5 h-5 text-yellow-600" />
-              <h3 className="text-lg font-semibold">Load Sample Data</h3>
-            </div>
-            <p className="text-gray-600 mb-4">
-              This will {habitData.habits.length > 0 ? 'replace your current habits with' : 'load'} sample habit data. 
-              {habitData.habits.length > 0 && ' Your current progress will be lost.'}
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={handleLoadSampleData}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Load Sample Data
-              </button>
-              <button
-                onClick={() => setShowSampleConfirm(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showClearConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="w-5 h-5 text-red-600" />
-              <h3 className="text-lg font-semibold">Clear All Data</h3>
-            </div>
-            <p className="text-gray-600 mb-4">
-              This will permanently delete all your habits and progress data. This action cannot be undone.
-            </p>
-            <div className="flex gap-3">
-              <button
-                onClick={handleClearData}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                Clear All Data
-              </button>
-              <button
-                onClick={() => setShowClearConfirm(false)}
-                className="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Status Messages */}
+      {/* Status message */}
       {message && (
-        <div className={`flex items-center gap-2 p-3 rounded-lg border ${getMessageStyles()}`}>
-          {getMessageIcon()}
-          <span className="flex-1 text-sm">{message.text}</span>
-          <button
-            onClick={clearMessage}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ×
+        <div className="flex items-center gap-2.5 p-3 mt-4 rounded-xl bg-inset text-sm text-ink">
+          {message.type === 'success' ? (
+            <CheckCircle className="w-4 h-4 text-status-completed flex-shrink-0" />
+          ) : (
+            <AlertTriangle className="w-4 h-4 text-status-missed flex-shrink-0" />
+          )}
+          <span className="flex-1">{message.text}</span>
+          <button onClick={() => setMessage(null)} className="text-faint hover:text-soft transition-colors">
+            <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
-      {/* Pro Tips */}
-      <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-        <h4 className="text-sm font-medium text-gray-700 mb-2">💡 Pro Tips:</h4>
-        <ul className="text-xs text-gray-600 space-y-1">
-          <li>• Use sample data to explore all app features</li>
-          <li>• Export your data before clearing for backup</li>
-          <li>• Sample data includes realistic progress patterns</li>
-          <li>• Clear data gives you a completely fresh start</li>
-        </ul>
-      </div>
+      {/* Confirmation modals */}
+      {(showSampleConfirm || showClearConfirm) && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50 animate-backdrop-in">
+          <div className="bg-surface border border-edge rounded-2xl p-6 max-w-md w-full animate-view-enter">
+            <div className="flex items-center gap-2.5 mb-3">
+              <AlertTriangle className={`w-5 h-5 ${showClearConfirm ? 'text-status-missed' : 'text-status-partial'}`} />
+              <h3 className="text-base font-semibold text-ink">
+                {showClearConfirm ? 'Clear all data?' : 'Load sample data?'}
+              </h3>
+            </div>
+            <p className="text-soft text-sm mb-5 leading-relaxed">
+              {showClearConfirm
+                ? 'This permanently deletes all your habits and progress. This cannot be undone.'
+                : habitData.habits.length > 0
+                  ? 'This replaces your current habits with sample data. Your current progress will be lost.'
+                  : 'This loads a set of sample habits with realistic progress.'}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={showClearConfirm ? handleClearData : handleLoadSampleData}
+                className={`flex-1 px-4 py-2.5 rounded-xl transition-colors text-sm font-medium ${
+                  showClearConfirm
+                    ? 'bg-status-missed text-white hover:opacity-90'
+                    : 'bg-accent text-white hover:bg-accent-hover'
+                }`}
+              >
+                {showClearConfirm ? 'Clear all data' : 'Load sample data'}
+              </button>
+              <button
+                onClick={() => { setShowClearConfirm(false); setShowSampleConfirm(false); }}
+                className="flex-1 px-4 py-2.5 bg-inset text-ink rounded-xl hover:bg-edge-strong/60 transition-colors text-sm font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

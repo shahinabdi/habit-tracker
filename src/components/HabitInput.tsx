@@ -4,9 +4,10 @@ import { getSampleHabitSuggestions } from '../utils/sampleData';
 
 interface HabitInputProps {
   onAddHabit: (name: string) => Promise<{ success: boolean; similarHabit?: string }>;
+  autoFocus?: boolean;
 }
 
-export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
+export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit, autoFocus = false }) => {
   const [habitName, setHabitName] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -60,11 +61,12 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
               type="text"
               value={habitName}
               onChange={handleInputChange}
+              autoFocus={autoFocus}
               placeholder="Add a new habit..."
-              className={`w-full px-4 py-2.5 text-sm border rounded-xl focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 transition-colors placeholder-gray-400 ${
+              className={`w-full px-4 py-2.5 text-sm border rounded-xl focus:ring-2 focus:ring-accent/40 focus:border-accent transition-colors placeholder-faint ${
                 errorMessage
                   ? 'border-status-missed bg-status-missed-soft'
-                  : 'border-gray-200 bg-white'
+                  : 'border-edge-strong bg-surface'
               }`}
               maxLength={50}
             />
@@ -79,7 +81,7 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
             <button
               type="button"
               onClick={() => setShowSuggestions(!showSuggestions)}
-              className="px-4 py-2.5 bg-gray-100 text-gray-600 rounded-xl hover:bg-gray-200 transition-colors flex items-center gap-2 text-sm whitespace-nowrap"
+              className="px-4 py-2.5 bg-inset text-soft rounded-xl hover:bg-edge-strong/60 transition-colors flex items-center gap-2 text-sm whitespace-nowrap"
             >
               <Lightbulb className="h-4 w-4" />
               <span>Ideas</span>
@@ -87,7 +89,7 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
             <button
               type="submit"
               disabled={!habitName.trim()}
-              className="px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-medium text-sm whitespace-nowrap"
+              className="px-5 py-2.5 bg-accent text-white rounded-xl hover:bg-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-medium text-sm whitespace-nowrap"
             >
               <Plus className="h-4 w-4" />
               <span>Add</span>
@@ -98,15 +100,15 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
 
       {/* Habit Suggestions */}
       {showSuggestions && (
-        <div className="mt-3 bg-white border border-gray-100 rounded-2xl p-4 animate-view-enter">
+        <div className="mt-3 bg-surface border border-edge rounded-2xl p-4 animate-view-enter">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Lightbulb className="w-4 h-4 text-amber-400" />
-              <h3 className="font-medium text-gray-700 text-sm">Habit Ideas</h3>
+              <Lightbulb className="w-4 h-4 text-status-partial" />
+              <h3 className="font-medium text-ink text-sm">Habit Ideas</h3>
             </div>
             <button
               onClick={() => setShowSuggestions(false)}
-              className="text-gray-300 hover:text-gray-500 transition-colors"
+              className="text-faint hover:text-soft transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -116,7 +118,7 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
               <button
                 key={index}
                 onClick={() => handleSuggestionClick(suggestion)}
-                className="text-left px-3 py-2.5 bg-gray-50 hover:bg-emerald-50 rounded-xl transition-colors text-sm text-gray-600"
+                className="text-left px-3 py-2.5 bg-inset hover:bg-accent-soft rounded-xl transition-colors text-sm text-soft"
               >
                 {suggestion}
               </button>
