@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, LogOut, Mail, Calendar, BadgeCheck, Target, CheckCircle2, Flame, Pencil, Check, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { LogOut, Mail, Calendar, BadgeCheck, Target, CheckCircle2, Flame, Pencil, Check, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useHabits } from '../hooks/useHabits';
 import { useToast } from '../contexts/ToastContext';
@@ -58,16 +58,8 @@ export const Profile: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:py-10">
+    <div className="py-2">
       <div className="max-w-sm mx-auto">
-        <Link
-          to="/home"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-emerald-600 transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to home
-        </Link>
-
         <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8">
           <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl font-semibold text-emerald-600">
@@ -134,7 +126,7 @@ export const Profile: React.FC = () => {
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
               <Mail className="w-4 h-4 text-gray-400 flex-shrink-0" />
               <div className="min-w-0">
-                <div className="text-xs text-gray-400">Email</div>
+                <div className="text-xs text-gray-500">Email</div>
                 <div className="text-sm font-medium text-gray-800 truncate">{user?.email}</div>
               </div>
             </div>
@@ -142,7 +134,7 @@ export const Profile: React.FC = () => {
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
               <Calendar className="w-4 h-4 text-gray-400 flex-shrink-0" />
               <div className="min-w-0">
-                <div className="text-xs text-gray-400">Member since</div>
+                <div className="text-xs text-gray-500">Member since</div>
                 <div className="text-sm font-medium text-gray-800">{memberSince}</div>
               </div>
             </div>

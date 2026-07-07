@@ -52,7 +52,7 @@ export const DailyView: React.FC<DailyViewProps> = ({
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
             {getFriendlyDateLabel(selectedDate)}
           </h2>
-          <p className="text-sm text-gray-400 mt-0.5">{selectedDate}</p>
+          <p className="text-sm text-gray-500 mt-0.5">{selectedDate}</p>
         </div>
 
         <button
@@ -98,11 +98,11 @@ export const DailyView: React.FC<DailyViewProps> = ({
               >
                 <StatusIcon status={status} size="lg" />
                 <span className="flex-1 text-gray-800 font-medium truncate">{habit.name}</span>
-                <span className="text-xs text-gray-400 hidden sm:inline">{statusLabel[status]}</span>
+                <span className="text-sm text-gray-500 hidden sm:inline">{statusLabel[status]}</span>
               </button>
               <button
                 onClick={() => onDeleteHabit(habit.id)}
-                className="p-1.5 rounded-lg text-gray-300 hover:text-status-missed hover:bg-status-missed-soft transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                className="p-2.5 -my-1 rounded-lg text-gray-300 hover:text-status-missed hover:bg-status-missed-soft transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
                 aria-label={`Delete ${habit.name}`}
               >
                 <Trash2 className="w-4 h-4" />
@@ -113,7 +113,7 @@ export const DailyView: React.FC<DailyViewProps> = ({
       </div>
 
       {!editable && (
-        <p className="text-center text-xs text-gray-400 mt-4">
+        <p className="text-center text-sm text-gray-500 mt-4">
           You can only mark habits done on today
         </p>
       )}

@@ -43,7 +43,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             <button
               key={option.id}
               onClick={() => setViewMode(option.id)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 viewMode === option.id
                   ? 'bg-white text-gray-900 shadow-sm'
                   : 'text-gray-500 hover:text-gray-700'

@@ -4,9 +4,10 @@ import { getSampleHabitSuggestions } from '../utils/sampleData';
 
 interface HabitInputProps {
   onAddHabit: (name: string) => Promise<{ success: boolean; similarHabit?: string }>;
+  autoFocus?: boolean;
 }
 
-export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
+export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit, autoFocus = false }) => {
   const [habitName, setHabitName] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -60,6 +61,7 @@ export const HabitInput: React.FC<HabitInputProps> = ({ onAddHabit }) => {
               type="text"
               value={habitName}
               onChange={handleInputChange}
+              autoFocus={autoFocus}
               placeholder="Add a new habit..."
               className={`w-full px-4 py-2.5 text-sm border rounded-xl focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400 transition-colors placeholder-gray-400 ${
                 errorMessage

@@ -74,7 +74,7 @@ export const WeeklyView: React.FC<WeeklyViewProps> = ({
               onClick={() => onOpenDay(date)}
               className="flex-shrink-0 snap-center flex flex-col items-center gap-2 rounded-2xl py-3 px-2 hover:bg-gray-50 transition-colors"
             >
-              <span className="text-xs font-medium text-gray-400">{getDayNameShort(date)}</span>
+              <span className="text-sm font-medium text-gray-500">{getDayNameShort(date)}</span>
               <div
                 className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-full ${
                   today ? 'ring-2 ring-today ring-offset-2' : ''

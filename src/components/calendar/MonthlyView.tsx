@@ -75,7 +75,7 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
             <button
               key={day}
               onClick={() => onOpenDay(dateString)}
-              className={`h-12 sm:h-14 lg:h-16 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-colors hover:bg-gray-50 ${
+              className={`h-14 lg:h-16 rounded-xl flex flex-col items-center justify-center gap-1.5 transition-colors hover:bg-gray-50 ${
                 today ? 'ring-2 ring-today ring-offset-1 bg-today-soft' : ''
               }`}
             >
@@ -89,7 +89,7 @@ export const MonthlyView: React.FC<MonthlyViewProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-xs text-gray-500">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-sm text-gray-500">
         <span className="flex items-center gap-1.5"><StatusIcon status="completed" size="sm" /> Completed</span>
         <span className="flex items-center gap-1.5"><StatusIcon status="partial" size="sm" /> Partial</span>
         <span className="flex items-center gap-1.5"><StatusIcon status="missed" size="sm" /> Missed</span>

@@ -19,7 +19,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onLoadSampleData, onSwit
         </h3>
 
         <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-          Add a habit above and it'll show up in your daily calendar, ready to track.
+          Add your first habit and it'll show up in your daily calendar, ready to track.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -31,9 +31,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onLoadSampleData, onSwit
             Try sample habits
           </button>
 
-          <div className="flex items-center justify-center gap-2 px-5 py-2.5 text-gray-400 text-sm">
+          <div className="flex items-center justify-center gap-2 px-5 py-2.5 text-gray-500 text-sm">
             <Plus className="w-4 h-4" />
-            Or add your own above
+            Or add your own anytime
           </div>
         </div>
 

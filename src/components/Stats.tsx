@@ -76,7 +76,7 @@ export const Stats: React.FC<StatsProps> = ({ habitData, selectedDate }) => {
           <h3 className="text-base sm:text-lg font-semibold text-gray-800">
             {getMonthName(currentMonth)} Statistics
           </h3>
-          <span className="text-xs text-gray-400 bg-gray-50 px-2.5 py-1 rounded-full">
+          <span className="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
             {currentYear}
           </span>
         </div>
